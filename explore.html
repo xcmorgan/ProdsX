@@ -28,7 +28,7 @@
 
   /* Navigation styles - top right fixed, small button */
   .nav-container {
-    position: fixed; /* Fixed at top right for always visible menu */
+    position: fixed;
     top: 10px;
     right: 10px;
     z-index: 999;
@@ -100,7 +100,7 @@
     margin: 10px auto;
   }
 
-  /* Slimmer, styled price box */
+  /* Styled price box */
   .price-box {
     display: inline-block;
     background-color: #4CAF50;
@@ -112,18 +112,20 @@
     font-size: 14px;
   }
 
-  /* Audio controls */
+  /* Audio controls styling */
   audio {
     width: 100%;
     margin-top: 10px;
   }
-  /* Like button and count */
+
+  /* Button and like section styles */
   .like-section {
     display: inline-block;
     margin-left: 10px;
     font-size: 14px;
   }
-  /* Buttons row */
+
+  /* Buttons row layout */
   .button-row {
     display: flex;
     align-items: center;
@@ -131,7 +133,7 @@
     margin-top: 10px;
     flex-wrap: wrap;
   }
-  /* Style for "Get in Touch" button */
+  /* "Get in Touch" button */
   .get-in-touch {
     padding: 8px 16px;
     font-size: 14px;
@@ -145,7 +147,7 @@
     background-color: #b366e0;
   }
 
-  /* Style for "Like" button */
+  /* Like button styling */
   button {
     background-color: purple;
     color: white;
@@ -176,6 +178,7 @@
     <div class="dropdown-content" id="dropdownMenu">
       <a href="index.html">Home</a>
       <a href="explore.html">Explore Producers</a>
+      <a href="mostliked.html">Most Liked</a>
       <a href="add-your-music.html">Add your music</a>
     </div>
   </div>
@@ -185,13 +188,13 @@
   <h1>Explore Producers</h1>
 </header>
 <hr>
-<!-- Producer Block  -->
+
+<!-- Producer Block -->
 <div class="producer" data-id="producer1">
   <h2>Producer: BlancoXCBeats</h2>
-  <!-- Producer's main image -->
   <img src="kasimode.jpg" alt="BlancoXCBeats" class="producer-img" />
 
-  <!-- Price in slim green box -->
+  <!-- Price -->
   <div class="price-box">Price: R350</div>
 
   <!-- Audio player -->
@@ -201,10 +204,9 @@
   <div class="audio-title">Kasi Mode project 4</div>
   <div class="sound-comment">Slow Soulful Trap beat.(!This project is NOT for sale it is for demonstration purposes).</div>
 
-  <!-- Buttons aligned in a row -->
+  <!-- Buttons -->
   <div class="button-row">
     <button onclick="likeAudio(this, 'producer1', 'song1')">Like</button>
-    <div class="like-section">Likes: <span class="like-count" data-id="producer1_song1">0</span></div>
     <a href="https://wa.me/27731036987" class="get-in-touch">Get in Touch</a>
   </div>
 </div>
@@ -212,7 +214,7 @@
 <!-- Repeat producer blocks as needed -->
 
 <script>
-  // Toggle menu dropdown
+  // Menu toggle
   const menuBtn = document.getElementById('menuButton');
   const dropdownDiv = document.getElementById('dropdownMenu');
 
@@ -244,9 +246,8 @@
     });
   };
 
-  // Like button functionality
+  // Like button function
   function likeAudio(btn, producerId, songId) {
-    const span = btn.closest('.producer').querySelector('.like-count');
     const id = producerId + '_' + songId;
     const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
 
@@ -256,8 +257,10 @@
     }
 
     const newCount = (data.count || 0) + 1;
-    span.innerText = newCount;
+    // Store only liked state, no display of count
     localStorage.setItem('likes_' + id, JSON.stringify({ count: newCount, liked: true }));
+
+    // Change button
     btn.innerText = 'Liked';
     btn.disabled = true;
     btn.style.backgroundColor = '#888';
