@@ -11,29 +11,28 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    text-align: center;
   }
 
-  /* Navigation styles */
+  /* Fixed top right menu styles */
   .nav-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
   }
+  /* Small button style */
   .nav-button {
-    background-color: purple;
+    background-color: transparent;
     color: white;
-    padding: 12px 20px;
-    margin: 0 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 6px 10px;
+    border: 1px solid white;
+    border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
-    text-decoration: none;
     transition: background 0.3s;
   }
   .nav-button:hover {
-    background-color: #b366e0;
+    background-color: rgba(255,255,255,0.2);
   }
 
   h1 {
@@ -68,12 +67,37 @@
 </head>
 <body>
 
-<!-- Navigation Menu -->
-<div class="nav-container">
-  <a href="index.html" class="nav-button">Home</a>
+<!-- Fixed top right menu -->
+<div class="nav-container" id="navContainer">
+  <button class="nav-button" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</button>
 </div>
-<p>HipHop/Trap Beats💿</p>
+
+<!-- Dropdown menu -->
+<div id="dropdownMenu" style="display:none; position: fixed; top: 50px; right: 10px; background-color: #222; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); z-index: 1000;">
+  <a href="index.html" style="display:block; padding:12px 16px; color:white; text-decoration:none;">Home</a>
+</div>
+
+<script>
+  const menuButton = document.getElementById('menuButton');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  menuButton.addEventListener('click', () => {
+    if (dropdownMenu.style.display === 'block') {
+      dropdownMenu.style.display = 'none';
+    } else {
+      dropdownMenu.style.display = 'block';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdownMenu.contains(e.target) && e.target !== menuButton) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
+</script>
+
 <h1>No media available right now</h1>
+<p>HipHop/Trap Beats💿</p>
 <br>
 <hr>
 <p>Feel free to <a href="add-your-music.html" class="add-music-btn">Add Your Music</a> and share your beats with the community!</p>
