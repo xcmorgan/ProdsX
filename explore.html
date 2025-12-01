@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Explore Producers</title>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+
+  /* Header with right-side dropdown menu */
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  h1 {
+    color: white; /* Changed from purple to white */
+    margin: 0 20px 0 0;
+  }
+
+  /* Dropdown styles */
+  .nav-right {
+    margin-left: auto;
+    position: absolute;
+    right: 20px;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropbtn {
+    background-color: purple;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .dropbtn:hover {
+    background-color: #b366e0;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: #222;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+  }
+  .dropdown.show .dropdown-content {
+    display: block;
+  }
+  .dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    color: white;
+    text-decoration: none;
+  }
+  .dropdown-content a:hover {
+    background-color: #555;
+  }
+
+  /* Producer block styles */
+  .producer {
+    background-color: #222;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .producer h2 {
+    color: white; /* Changed from purple to white */
+    margin-bottom: 10px;
+  }
+  /* Main image for producer */
+  .producer-img {
+    width: 150px;
+    border-radius: 8px;
+    display: block;
+    margin: 10px auto;
+  }
+
+  /* Slimmer, styled price box */
+  .price-box {
+    display: inline-block;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 4px 8px; /* Reduced padding for slimmer look */
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 14px; /* Smaller font */
+  }
+
+  /* Audio controls */
+  audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+  /* Style for like button and like count container */
+  .like-section {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  /* The container for like, get in touch, aligned horizontally */
+  .button-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  /* Style the "Get in Touch" button */
+  .get-in-touch {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: purple;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .get-in-touch:hover {
+    background-color: #b366e0;
+  }
+
+  /* Style the "Like" button */
+  button {
+    background-color: purple;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #b366e0;
+  }
+
+  /* Responsive styles */
+  @media(max-width: 600px){
+    .producer {
+      width: 90%;
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Explore Producers</h1>
+  <div class="nav-right" id="navExplore">
+    <div class="dropdown" id="navDropdown">
+      <button class="dropbtn" id="menuButton">Navigate</button>
+      <div class="dropdown-content" id="dropdownMenu">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore Producers</a>
+        <a href="mostliked.html">Most Liked</a>
+        <a href="add-your-music.html">Add your music</a>
+      </div>
+    </div>
+  </div>
+</header>
+<hr>
+<!-- Producer Block  -->
+<div class="producer" data-id="producer1">
+  <h2>Producer: BlancoXCBeats</h2>
+  <!-- Producer's main image -->
+  <img src="kasimode.jpg" alt="BlancoXCBeats" class="producer-img" />
+
+  <!-- Price in slim green box -->
+  <div class="price-box">Price: R350</div>
+
+  <!-- Audio player -->
+  <audio controls>
+    <source src="KASI MODE 4.mp3" type="audio/mpeg" />
+  </audio>
+  <div class="audio-title">Kasi Mode project 4</div>
+  <div class="sound-comment">Slow Soulful Trap beat.(!This project is NOT for sale it is for demonstration purposes).</div>
+
+  <!-- Buttons aligned in a row -->
+  <div class="button-row">
+    <button onclick="likeAudio(this, 'producer1', 'song1')">Like</button>
+    <div class="like-section">Likes: <span class="like-count" data-id="producer1_song1">0</span></div>
+    <a href="mailto:produceremail@example.com" class="get-in-touch">Get in Touch</a>
+  </div>
+</div>
+
+<!-- Duplicate the above block for more producers as needed -->
+
+<script>
+  // Toggle menu dropdown
+  const menuBtn = document.getElementById('menuButton');
+  const dropdownDiv = document.getElementById('dropdownMenu');
+
+  if (menuBtn && dropdownDiv) {
+    menuBtn.addEventListener('click', () => {
+      dropdownDiv.parentElement.classList.toggle('show');
+    });
+    document.addEventListener('click', (e) => {
+      if (!dropdownDiv.contains(e.target) && e.target !== menuBtn) {
+        dropdownDiv.parentElement.classList.remove('show');
+      }
+    });
+  }
+
+  // Load likes from localStorage
+  window.onload = () => {
+    document.querySelectorAll('.like-count').forEach(span => {
+      const id = span.getAttribute('data-id');
+      const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
+      span.innerText = data.count || 0;
+
+      if (data.liked) {
+        const btn = span.closest('.producer').querySelector('button');
+        btn.innerText = 'Liked';
+        btn.disabled = true;
+        btn.style.backgroundColor = '#888';
+        btn.style.cursor = 'not-allowed';
+      }
+    });
+  };
+
+  // Like button functionality
+  function likeAudio(btn, producerId, songId) {
+    const span = btn.closest('.producer').querySelector('.like-count');
+    const id = producerId + '_' + songId;
+    const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
+
+    if (data.liked) {
+      alert('You already liked this!');
+      return;
+    }
+
+    const newCount = (data.count || 0) + 1;
+    span.innerText = newCount;
+    localStorage.setItem('likes_' + id, JSON.stringify({ count: newCount, liked: true }));
+    btn.innerText = 'Liked';
+    btn.disabled = true;
+    btn.style.backgroundColor = '#888';
+    btn.style.cursor = 'not-allowed';
+  }
+
+  // Ensure only one audio plays at a time
+  document.querySelectorAll('audio').forEach((audio) => {
+    audio.addEventListener('play', () => {
+      document.querySelectorAll('audio').forEach((otherAudio) => {
+        if (otherAudio !== audio) {
+          otherAudio.pause();
+        }
+      });
+    });
+  });
+</script>
+<br>
+<footer style="text-align: center; padding: 10px; color: gray;">
+  &copy; 2025 PrinceMorgan. All rights reserved.
+</footer>
+</body>
+</html>
