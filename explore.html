@@ -178,7 +178,7 @@
     <div class="dropdown-content" id="dropdownMenu">
       <a href="index.html">Home</a>
       <a href="explore.html">Explore Producers</a>
-      <a href="mostliked.html">Most Liked</a>
+      <a href="likedcontent.html">Liked content</a>
       <a href="add-your-music.html">Add your music</a>
     </div>
   </div>
@@ -206,7 +206,7 @@
 
   <!-- Buttons -->
   <div class="button-row">
-    <button onclick="likeAudio(this, 'producer1', 'song1')">Like</button>
+    <button onclick="likeAudio(this, 'producer1', 'song1', { id: 'producer1_song1', producer: 'BlancoXCBeats', title: 'Kasi Mode project 4' })">Like</button>
     <a href="https://wa.me/27731036987" class="get-in-touch">Get in Touch</a>
   </div>
 </div>
@@ -246,9 +246,9 @@
     });
   };
 
-  // Like button function
-  function likeAudio(btn, producerId, songId) {
-    const id = producerId + '_' + songId;
+  // Like function
+  function likeAudio(btn, producerId, songId, beatDetails) {
+    const id = beatDetails.id;
     const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
 
     if (data.liked) {
@@ -256,11 +256,17 @@
       return;
     }
 
-    const newCount = (data.count || 0) + 1;
-    // Store only liked state, no display of count
-    localStorage.setItem('likes_' + id, JSON.stringify({ count: newCount, liked: true }));
+    // Save liked beat info in likedBeats array
+    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+    if (!likedBeats.some(b => b.id === id)) {
+      likedBeats.push(beatDetails);
+      localStorage.setItem('likedBeats', JSON.stringify(likedBeats));
+    }
 
-    // Change button
+    // Store liked state for this beat
+    localStorage.setItem('likes_' + id, JSON.stringify({ liked: true }));
+
+    // Update button
     btn.innerText = 'Liked';
     btn.disabled = true;
     btn.style.backgroundColor = '#888';
