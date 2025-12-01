@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Liked Beats</title>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: purple;
+    margin-bottom: 20px;
+  }
+  .beat {
+    background-color: #222;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .beat h2 {
+    margin: 0 0 10px 0;
+    color: purple;
+  }
+  /* Add more styles as needed */
+</style>
+</head>
+<body>
+<a href="index.html"><Button>Home</Button></a>
+<h1>Your Liked Beats</h1>
+<br>
+<hr>
+<div id="likedBeatsContainer"></div>
+
+<script>
+  const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+  const container = document.getElementById('likedBeatsContainer');
+
+  if (likedBeats.length === 0) {
+    container.innerHTML = '<p style="text-align:center;">You have not liked any beats yet.</p>';
+  } else {
+    likedBeats.forEach(beat => {
+      const div = document.createElement('div');
+      div.className = 'beat';
+
+      // You might want to customize the audio source path accordingly
+      div.innerHTML = `
+        <h2>${beat.title}</h2>
+        <p><strong>Producer:</strong> ${beat.producer}</p>
+        <audio controls>
+          <source src="YOUR_AUDIO_PATH/${beat.id}.mp3" type="audio/mpeg" />
+        </audio>
+        <p><a href="mailto:produceremail@example.com" class="get-in-touch">Get in Touch</a></p>
+      `;
+      container.appendChild(div);
+    });
+  }
+</script>
+
+</body>
+</html>
