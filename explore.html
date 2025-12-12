@@ -3,290 +3,776 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Explore Producers</title>
+<title>ProdsX - Explore Producers</title>
 <style>
-  body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
+  /* Base Styles (Consistent Theme) */
+  * {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  /* Header with right-side dropdown menu */
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background: #0a0a0a;
+    /* Adding subtle noise/texture to the background */
+    background-image: radial-gradient(circle at center, rgba(138,43,226, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: #e8e8e8;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 30px 20px 40px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8a2be2, #6a1b9a);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ab47bc, #8a2be2);
+  }
+
+  /* GLITCH KEYFRAMES */
+  @keyframes glitch-anim {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+
+  /* HEADER & TITLE */
   header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     position: relative;
   }
   h1 {
-    color: white;
-    margin: 0 20px 0 0;
+    color: #d0cde1;
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-shadow: 0 0 10px rgba(138,43,226,0.6);
+    text-align: center;
   }
 
-  /* Navigation styles - top right fixed, small button */
+  /* NAVIGATION */
   .nav-container {
     position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 999;
+    top: 25px;
+    right: 30px;
+    z-index: 9999;
+    font-weight: 600;
   }
   .dropdown {
     position: relative;
     display: inline-block;
+    font-size: 0.9rem;
   }
-  /* Small, unobtrusive button style */
   .dropbtn {
-    background-color: transparent;
-    color: white;
-    padding: 6px 10px;
-    border: 1px solid white;
-    border-radius: 4px;
+    background: transparent;
+    color: #ccc;
+    padding: 10px 16px;
+    border: 2px solid #8a2be2;
+    border-radius: 12px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 14px;
+    transition: all 0.3s ease;
+    letter-spacing: 1.2px;
+    position: relative;
+    overflow: hidden;
   }
   .dropbtn:hover {
-    background-color: rgba(255,255,255,0.2);
+    background: #8a2be2;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(138,43,226,0.8);
   }
-  /* Dropdown menu positioned below button, aligned right */
+  /* GLITCH EFFECT FOR DROPBUTTON */
+  .dropbtn:hover::before, .dropbtn:hover::after {
+    content: "☰";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #8a2be2;
+    color: #fff;
+    border-radius: 10px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.8;
+  }
+  .dropbtn:hover::before {
+    left: -2px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.4s infinite alternate-reverse;
+  }
+  .dropbtn:hover::after {
+    left: 2px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.4s infinite alternate-reverse 0.1s;
+  }
   .dropdown-content {
     display: none;
     position: absolute;
     right: 0;
     top: 100%;
-    margin-top: 5px;
-    background-color: #222;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-    border-radius: 8px;
+    margin-top: 8px;
+    background: #1a1a1a;
+    min-width: 190px;
+    box-shadow: 0 8px 30px rgba(138,43,226,0.7);
+    border-radius: 12px;
     overflow: hidden;
-    z-index: 1000;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    border: 1px solid #8a2be2;
   }
   .dropdown.show .dropdown-content {
     display: block;
   }
   .dropdown-content a {
     display: block;
-    padding: 8px 12px;
-    color: white;
+    padding: 12px 20px;
+    color: #d0cde1;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
+    transition: background-color 0.25s ease, padding-left 0.25s ease;
   }
   .dropdown-content a:hover {
-    background-color: #555;
+    background: #8a2be2;
+    color: white;
+    padding-left: 25px;
   }
 
-  /* Producer block styles */
-  .producer {
-    background-color: #222;
-    padding: 15px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  /* HR LINE */
+  hr {
+    border: none;
+    border-top: 2px solid rgba(138,43,226,0.5);
+    width: 60%;
+    margin: 20px auto 40px auto;
+    max-width: 750px;
+    box-shadow: 0 0 10px rgba(138,43,226,0.3);
   }
-  .producer h2 {
-    color: white;
+
+  /* PRODUCER CARDS */
+  .producers-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .producer {
+    padding: 18px 20px;
+    border-radius: 16px;
+    /* Updated background/border for consistent look */
+    background: rgba(15, 15, 15, 0.7); 
+    border: 1px solid rgba(138,43,226,0.4); 
+    box-shadow: 0 4px 20px rgba(138,43,226,0.2);
+    transition: all 0.3s ease;
+    width: 18%;
+    min-width: 200px; /* Increased min-width slightly for better visuals */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #eee;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .producer:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(138,43,226,0.8);
+    border-color: #8a2be2;
+    background: rgba(37, 15, 74, 0.85); /* Slightly darker, purple-shifted hover background */
+  }
+  
+  /* Specific Color Classes (Toned down to fit theme) */
+  .producer-purple { background: rgba(58, 0, 102, 0.7); border-color: rgba(138,43,226,0.5); }
+  .producer-lavender { background: rgba(85, 45, 120, 0.7); border-color: rgba(138,43,226,0.5); }
+  .producer-white { 
+    background: rgba(240, 240, 245, 0.9); 
+    color: #333; 
+    border-color: rgba(138,43,226,0.8);
+    box-shadow: 0 4px 20px rgba(138,43,226,0.5);
+  }
+  .producer-white:hover {
+    background: #fff;
+    box-shadow: 0 15px 35px rgba(138,43,226,0.9);
+  }
+  .producer-white h2, .producer-white .price-box, .producer-white .audio-title, .producer-white .sound-comment { color: #222; }
+  .producer-white button, .producer-white .get-in-touch { 
+    background: #8a2be2; 
+    color: white; 
+    border: none;
+  }
+  .producer-white button:hover, .producer-white .get-in-touch:hover { 
+    background: #6a1b9a; 
+  }
+  
+  .producer h2 { 
+    margin-bottom: 12px; 
+    font-weight: 700; 
+    font-size: 1.1rem; 
+    text-align: center; 
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  }
+  .producer-img { 
+    width: 110px; 
+    border-radius: 12px; 
+    margin-bottom: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6); 
+    transition: all 0.3s ease; 
+    flex-shrink: 0; 
+    border: 2px solid rgba(138,43,226,0.5); /* Accent border */
+  }
+  .producer:hover .producer-img { 
+    filter: brightness(1.1); 
+    box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+    transform: scale(1.03);
+  }
+  .price-box { 
+    display: inline-block; 
+    background: #5bba6d; /* Green for price */
+    color: white; 
+    padding: 4px 8px; 
+    border-radius: 8px; 
+    font-weight: 700; 
+    margin-top: 8px; 
+    font-size: 14px; 
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  audio { 
+    width: 100%; 
+    margin-top: 10px; 
+    outline: none; 
+    border-radius: 8px; 
+    background: #1a1a1a;
+    border: 1px solid #8a2be2;
+  }
+  /* Style audio controls for dark theme */
+  audio::-webkit-media-controls-panel {
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+  audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-current-time-display, audio::-webkit-media-controls-time-remaining-display {
+    color: #fff !important;
+  }
+  audio::-webkit-media-controls-timeline {
+    background-color: #333;
+    border-radius: 5px;
+  }
+
+  .audio-title { 
+    margin-top: 6px; 
+    font-weight: 600; 
+    font-size: 0.9rem; 
+    user-select: none; 
+    text-align: center; 
+    color: #c1bbe6;
+  }
+  .sound-comment { 
+    margin-top: 4px; 
+    font-size: 0.75rem; 
+    font-style: italic; 
+    max-width: 100%; 
+    text-align: center; 
+    opacity: 0.7;
+  }
+  .button-row { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    margin-top: 15px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+  }
+
+  /* BUTTON STYLING (Like/Unlike) */
+  button { 
+    background: #8a2be2;
+    color: white; 
+    border: 2px solid #6a1b9a;
+    padding: 8px 14px; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-weight: 700; 
+    font-size: 13px; 
+    transition: all 0.3s ease; 
+    position: relative;
+    overflow: hidden;
+  }
+  button:hover { 
+    background: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(138,43,226,0.6);
+  }
+  /* GLITCH EFFECT FOR BUTTONS */
+  button:hover::before, button:hover::after {
+    content: attr(data-text); /* Content set via JS/HTML or defaults to the text */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6a1b9a;
+    color: #fff;
+    border-radius: 8px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.9;
+    padding: 8px 14px;
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+  button:hover::before {
+    left: -1px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.3s infinite alternate-reverse;
+  }
+  button:hover::after {
+    left: 1px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.3s infinite alternate-reverse 0.15s;
+  }
+  
+  /* CONTACT BUTTON STYLING */
+  .get-in-touch { 
+    padding: 6px 12px; 
+    font-size: 13px; 
+    background: #8a2be2;
+    color: white; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    font-weight: 700; 
+    transition: all 0.3s ease;
+    border: 2px solid #6a1b9a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .get-in-touch:hover { 
+    background: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(138,43,226,0.6);
+  }
+  /* GLITCH EFFECT FOR CONTACT BUTTON (Simulated, as it's an anchor) */
+  .get-in-touch:hover::before, .get-in-touch:hover::after {
+    content: "Get in Touch";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6a1b9a;
+    color: #fff;
+    border-radius: 10px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.9;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+  .get-in-touch:hover::before {
+    left: -1px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.3s infinite alternate-reverse;
+  }
+  .get-in-touch:hover::after {
+    left: 1px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.3s infinite alternate-reverse 0.15s;
+  }
+
+  /* Liked Beats Mini Box */
+  #likedMiniBox {
+    position: fixed; 
+    bottom: 25px; 
+    right: 30px; 
+    background: rgba(138, 43, 226, 0.1); /* Light purple base */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 60px; /* Slightly larger base */
+    height: 60px; 
+    border-radius: 50%;
+    border: 2px solid rgba(138, 43, 226, 0.5);
+    box-shadow: 0 4px 25px rgba(138, 43, 226, 0.5);
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 1100;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    flex-direction: column;
+    padding: 4px;
+  }
+  #likedMiniBox:hover {
+    box-shadow: 0 8px 40px rgba(138, 43, 226, 0.8);
+    background: rgba(138, 43, 226, 0.2);
+  }
+  #likedMiniBox.expanded {
+    width: 340px; /* Wider expanded size */
+    height: 400px; /* Taller expanded size */
+    border-radius: 20px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(24px);
+    border: 1px solid #8a2be2;
+    padding: 20px;
+  }
+  #likedMiniBoxIcon {
+    color: #ff00c1; /* Bright accent heart color */
+    text-shadow: 0 0 5px rgba(255, 0, 193, 0.7);
+    font-size: 30px;
+    transition: all 0.3s ease;
+    padding: 4px;
+    border-radius: 50%;
+  }
+  #likedMiniBox.expanded #likedMiniBoxIcon {
+    align-self: flex-start;
+    padding: 0;
     margin-bottom: 10px;
   }
-  /* Main image for producer */
-  .producer-img {
-    width: 150px;
-    border-radius: 8px;
-    display: block;
-    margin: 10px auto;
+  #likedMiniBoxIcon:hover {
+    transform: scale(1.1);
   }
-
-  /* Styled price box */
-  .price-box {
-    display: inline-block;
-    background-color: #4CAF50;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-weight: bold;
+  #likedMiniBoxContent {
+    display: none;
     margin-top: 10px;
-    font-size: 14px;
-  }
-
-  /* Audio controls styling */
-  audio {
     width: 100%;
-    margin-top: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  #likedMiniBox.expanded #likedMiniBoxContent {
+    display: block;
   }
 
-  /* Button and like section styles */
-  .like-section {
+  /* Liked Beat Card Styling */
+  .liked-beat-card {
+    background: rgba(138, 43, 226, 0.1);
+    border-radius: 16px; 
+    padding: 14px; 
+    margin-bottom: 15px; 
+    color: #ddd;
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    display: block; /* Make it a block element */
+  }
+  .liked-beat-card:hover { 
+    background: rgba(138, 43, 226, 0.25);
+    border-color: #8a2be2;
+    transform: translateY(-2px);
+  }
+  .liked-beat-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: #fff;
+  }
+  .liked-beat-producer {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+  .mini-unlike-btn, .mini-contact-btn {
     display: inline-block;
-    margin-left: 10px;
-    font-size: 14px;
-  }
-
-  /* Buttons row layout */
-  .button-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-  }
-  /* "Get in Touch" button */
-  .get-in-touch {
-    padding: 8px 16px;
-    font-size: 14px;
-    background-color: purple;
-    color: white;
+    padding: 6px 12px;
     border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
     text-decoration: none;
-    font-weight: bold;
-  }
-  .get-in-touch:hover {
-    background-color: #b366e0;
-  }
-
-  /* Like button styling */
-  button {
-    background-color: purple;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
     cursor: pointer;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
   }
-  button:hover {
-    background-color: #b366e0;
+  .mini-unlike-btn {
+    background: #dc3545; /* Red for Unlike */
+    color: white;
+    border: 1px solid #a71d2a;
+  }
+  .mini-unlike-btn:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+  .mini-contact-btn {
+    background: #8a2be2; /* Purple for Contact */
+    color: white;
+    border: 1px solid #6a1b9a;
+  }
+  .mini-contact-btn:hover {
+    background: #6a1b9a;
+    transform: translateY(-1px);
   }
 
-  /* Responsive styles */
-  @media(max-width: 600px){
-    .producer {
-      width: 90%;
-      padding: 10px;
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 25px 20px;
+    color: #777;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(138,43,226,0.2);
+    margin-top: 60px;
+  }
+
+
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+    .producer { width: 23%; min-width: 180px; padding: 16px 18px; }
+  }
+  @media (max-width: 900px) {
+    .nav-container { top: 20px; right: 20px; }
+    .producer { width: 30%; min-width: 170px; }
+  }
+  @media (max-width: 600px) {
+    .producer { width: 48%; min-width: 160px; padding: 15px 10px; }
+    h1 { font-size: 2rem; }
+    .nav-container { top: 15px; right: 15px; }
+    #likedMiniBox { width: 52px; height: 52px; bottom: 15px; right: 15px; }
+    #likedMiniBox.expanded {
+      width: 90vw; max-width: 320px; height: 360px;
+      bottom: 10px; right: 10px; left: auto;
+      padding: 15px;
     }
+  }
+  @media (max-width: 400px) {
+    .producer { width: 95%; min-width: auto; }
+    .producer-img { width: 90px; }
+    .button-row { flex-direction: row; gap: 8px; }
+    #likedMiniBox.expanded { max-width: 95vw; }
   }
 </style>
 </head>
 <body>
 
-<!-- Fixed top right menu -->
 <div class="nav-container" id="navContainer">
   <div class="dropdown" id="navDropdown">
     <button class="dropbtn" id="menuButton">☰</button>
     <div class="dropdown-content" id="dropdownMenu">
-      <a href="index.html">Home</a>
-      <a href="explore.html">Explore Producers</a>
-      <a href="likedcontent.html">Liked content</a>
-      <a href="add-your-music.html">Add your music</a>
+      <a href="index.html">🏠 Home</a>
+      <a href="explore.html">🎵 Explore Producers</a>
+      <a href="add-your-music.html">➕ Add your music</a>
+      <a href="contactme.html">📧 Contact Me</a>
     </div>
   </div>
 </div>
 
-<header>
-  <h1>Explore Producers</h1>
-</header>
+<header><h1>Explore Producers</h1></header>
 <hr>
 
-<!-- Producer Block -->
-<div class="producer" data-id="producer1">
-  <h2>Producer: BlancoXCBeats</h2>
-  <img src="kasimode.jpg" alt="BlancoXCBeats" class="producer-img" />
-
-  <!-- Price -->
-  <div class="price-box">Price: R350</div>
-
-  <!-- Audio player -->
-  <audio controls>
-    <source src="KASI MODE 4.mp3" type="audio/mpeg" />
-  </audio>
-  <div class="audio-title">Kasi Mode project 4</div>
-  <div class="sound-comment">Slow Soulful Trap beat.(!This project is NOT for sale it is for demonstration purposes).</div>
-
-  <!-- Buttons -->
-  <div class="button-row">
-    <button onclick="likeAudio(this, 'producer1', 'song1', { id: 'producer1_song1', producer: 'BlancoXCBeats', title: 'Kasi Mode project 4' })">Like</button>
-    <a href="https://wa.me/27731036987" class="get-in-touch">Get in Touch</a>
+<div class="producers-container">
+  <div class="producer producer-purple" data-id="producer1">
+    <h2>Producer: BlancoXCBeats</h2>
+    <img src="kasimode.jpg" alt="BlancoXCBeats" class="producer-img" />
+    <div class="price-box">Price: R350</div>
+    <audio controls><source src="KASI MODE 4.mp3" type="audio/mpeg" /></audio>
+    <div class="audio-title">Kasi Mode project 4</div>
+    <div class="sound-comment">Slow Soulful Trap beat (demo).</div>
+    <div class="button-row">
+      <button 
+        onclick="toggleLike(this, 'producer1', 'song1', { id: 'producer1_song1', producer: 'BlancoXCBeats', title: 'Kasi Mode project 4', src: 'KASI MODE 4.mp3', whatsapp: 'https://wa.me/27731036987' })"
+        data-text="Like"
+      >Like</button>
+      <a href="https://wa.me/27731036987" class="get-in-touch" target="_blank">Get in Touch</a>
+    </div>
   </div>
+
+  </div>
+
+<div id="likedMiniBox" aria-label="Liked beats panel" title="Your liked beats" role="region" aria-expanded="false" tabindex="0">
+  <div id="likedMiniBoxIcon" aria-hidden="true" role="button" tabindex="0" title="Toggle liked beats list">❤️</div>
+  <div id="likedMiniBoxContent" tabindex="0" aria-live="polite"></div>
 </div>
 
-<!-- Repeat producer blocks as needed -->
-
-<script>
-  // Menu toggle
-  const menuBtn = document.getElementById('menuButton');
-  const dropdownDiv = document.getElementById('dropdownMenu');
-
-  if (menuBtn && dropdownDiv) {
-    menuBtn.addEventListener('click', () => {
-      dropdownDiv.parentElement.classList.toggle('show');
-    });
-    document.addEventListener('click', (e) => {
-      if (!dropdownDiv.contains(e.target) && e.target !== menuBtn) {
-        dropdownDiv.parentElement.classList.remove('show');
-      }
-    });
-  }
-
-  // Load likes from localStorage
-  window.onload = () => {
-    document.querySelectorAll('.like-count').forEach(span => {
-      const id = span.getAttribute('data-id');
-      const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
-      span.innerText = data.count || 0;
-
-      if (data.liked) {
-        const btn = span.closest('.producer').querySelector('button');
-        btn.innerText = 'Liked';
-        btn.disabled = true;
-        btn.style.backgroundColor = '#888';
-        btn.style.cursor = 'not-allowed';
-      }
-    });
-  };
-
-  // Like function
-  function likeAudio(btn, producerId, songId, beatDetails) {
-    const id = beatDetails.id;
-    const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
-
-    if (data.liked) {
-      alert('You already liked this!');
-      return;
-    }
-
-    // Save liked beat info in likedBeats array
-    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
-    if (!likedBeats.some(b => b.id === id)) {
-      likedBeats.push(beatDetails);
-      localStorage.setItem('likedBeats', JSON.stringify(likedBeats));
-    }
-
-    // Store liked state for this beat
-    localStorage.setItem('likes_' + id, JSON.stringify({ liked: true }));
-
-    // Update button
-    btn.innerText = 'Liked';
-    btn.disabled = true;
-    btn.style.backgroundColor = '#888';
-    btn.style.cursor = 'not-allowed';
-  }
-
-  // Prevent multiple audio play
-  document.querySelectorAll('audio').forEach((audio) => {
-    audio.addEventListener('play', () => {
-      document.querySelectorAll('audio').forEach((otherAudio) => {
-        if (otherAudio !== audio) {
-          otherAudio.pause();
-        }
-      });
-    });
-  });
-</script>
-<br>
 <footer style="text-align: center; padding: 10px; color: gray;">
   &copy; 2025 PrinceMorgan. All rights reserved.
 </footer>
+
+
+<script>
+  // Navigation menu toggle
+  const menuBtn = document.getElementById('menuButton');
+  const dropdownDiv = document.getElementById('dropdownMenu');
+  const navDropdown = document.getElementById('navDropdown'); // Get the parent dropdown div
+  if (menuBtn && navDropdown) {
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navDropdown.classList.toggle('show');
+    });
+    document.addEventListener('click', (e) => {
+        if (!navDropdown.contains(e.target) && e.target !== menuBtn) {
+            navDropdown.classList.remove('show');
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        navDropdown.classList.remove('show');
+      }
+    });
+  }
+
+  const likedMiniBox = document.getElementById('likedMiniBox');
+  const likedMiniBoxContent = document.getElementById('likedMiniBoxContent');
+  const likedMiniBoxIcon = document.getElementById('likedMiniBoxIcon');
+
+  let isMiniBoxOpen = false; // Track expanded state
+
+  // Initialize on load
+  window.onload = () => {
+    refreshLikeButtons();
+    refreshLikedMiniBox();
+  };
+
+  function refreshLikeButtons() {
+    document.querySelectorAll('.producer').forEach(producerDiv => {
+      const btn = producerDiv.querySelector('button');
+      if (!btn) return; // Skip if no button found
+      
+      const onclickAttr = btn.getAttribute('onclick');
+      // Extract the beat ID from the onclick attribute (complex but necessary)
+      const beatDetailsMatch = onclickAttr.match(/{.*?}/);
+      if (!beatDetailsMatch) return;
+      const beatDetails = JSON.parse(beatDetailsMatch[0].replace(/'/g, '"'));
+      const id = beatDetails.id;
+      
+      const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
+      
+      btn.innerText = data.liked ? 'Unlike' : 'Like';
+      btn.setAttribute('data-text', btn.innerText); // Update data-text for glitch
+    });
+  }
+
+  function toggleLike(btn, producerId, songId, beatDetails) {
+    const id = beatDetails.id;
+    const key = 'likes_' + id;
+    const data = JSON.parse(localStorage.getItem(key) || '{}');
+    let likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+
+    if (data.liked) {
+      localStorage.removeItem(key);
+      likedBeats = likedBeats.filter(b => b.id !== id);
+      btn.innerText = 'Like';
+    } else {
+      localStorage.setItem(key, JSON.stringify({ liked: true }));
+      if (!likedBeats.some(b => b.id === id)) likedBeats.push(beatDetails);
+      btn.innerText = 'Unlike';
+    }
+    
+    btn.setAttribute('data-text', btn.innerText); // Update data-text for glitch
+    localStorage.setItem('likedBeats', JSON.stringify(likedBeats));
+    refreshLikedMiniBox();
+  }
+
+  function refreshLikedMiniBox() {
+    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+    likedMiniBoxContent.innerHTML = '';
+    likedMiniBox.style.display = likedBeats.length ? 'flex' : 'none';
+
+    if (likedBeats.length === 0) {
+      likedMiniBox.classList.remove('expanded');
+      likedMiniBox.setAttribute('aria-expanded', 'false');
+      isMiniBoxOpen = false;
+      return;
+    }
+
+    likedBeats.forEach(beat => {
+      const card = document.createElement('div');
+      card.className = 'liked-beat-card';
+      card.innerHTML = `
+        <div class="liked-beat-info">
+          <div class="liked-beat-title">${beat.title}</div>
+          <div class="liked-beat-producer">by ${beat.producer}</div>
+        </div>
+        <audio controls src="${beat.src}" preload="none"></audio>
+        <div style="margin-top: 10px;">
+          <button class="mini-unlike-btn" onclick="unlikeFromMini('${beat.id}')">Unlike</button>
+          <a href="${beat.whatsapp || 'https://wa.me/27731036987'}" class="mini-contact-btn" target="_blank">Contact</a>
+        </div>
+      `;
+      likedMiniBoxContent.appendChild(card);
+    });
+  }
+
+  function unlikeFromMini(beatId) {
+    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+    
+    // Find the corresponding button on the main page to update its state
+    const mainPageBtn = document.querySelector(`.producer button[onclick*="'${beatId}'"]`);
+
+    if (mainPageBtn) {
+        mainPageBtn.innerText = 'Like';
+        mainPageBtn.setAttribute('data-text', 'Like');
+    }
+    
+    localStorage.removeItem('likes_' + beatId);
+    const newLikedBeats = likedBeats.filter(b => b.id !== beatId);
+    localStorage.setItem('likedBeats', JSON.stringify(newLikedBeats));
+    
+    refreshLikedMiniBox();
+  }
+
+  // Toggle mini box expanded state
+  likedMiniBoxIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isMiniBoxOpen = !likedMiniBox.classList.contains('expanded');
+    const isExpanded = likedMiniBox.classList.toggle('expanded');
+    likedMiniBox.setAttribute('aria-expanded', isExpanded);
+  });
+
+  // Prevent clicks inside mini box from closing it
+  likedMiniBox.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  // Close mini box on outside click only if expanded
+  document.addEventListener('click', (e) => {
+    if (!likedMiniBox.contains(e.target) && isMiniBoxOpen) {
+      likedMiniBox.classList.remove('expanded');
+      likedMiniBox.setAttribute('aria-expanded', 'false');
+      isMiniBoxOpen = false;
+    }
+  });
+
+  // Single audio playback globally
+  document.body.addEventListener('play', e => {
+    if (e.target.tagName === 'AUDIO') {
+      document.querySelectorAll('audio').forEach(audio => {
+        if (audio !== e.target) audio.pause();
+      });
+    }
+  }, true);
+</script>
+
 </body>
 </html>
