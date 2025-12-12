@@ -3,47 +3,209 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Trap/HipHop</title>
+<title>ProdsX - Trap/HipHop</title>
 <style>
-  body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
+  /* Base Styles (Inherited from Index) */
+  * {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  /* Fixed top right menu styles */
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background: #0a0a0a;
+    /* Adding subtle noise/texture to the background */
+    background-image: radial-gradient(circle at center, rgba(138,43,226, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: #e8e8e8;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 30px 20px;
+    text-align: center;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8a2be2, #6a1b9a);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ab47bc, #8a2be2);
+  }
+
+  /* CONTAINER FOR CARD-LIKE DESIGN */
+  .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 30px;
+    background: rgba(15, 15, 15, 0.85); /* Slightly transparent background */
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(138,43,226,0.3), 0 0 0 1px rgba(138,43,226,0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(138,43,226,0.5);
+  }
+
+  /* GLITCH KEYFRAMES */
+  @keyframes glitch-anim {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+
+  /* HEADINGS */
+  h1 {
+    color: #d0cde1;
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    text-shadow: 0 0 10px rgba(138,43,226,0.5);
+    position: relative;
+    display: inline-block;
+  }
+
+  /* NAVIGATION */
   .nav-container {
     position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 999;
-  }
-  /* Small button style */
-  .nav-button {
-    background-color: transparent;
-    color: white;
-    padding: 6px 10px;
-    border: 1px solid white;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .nav-button:hover {
-    background-color: rgba(255,255,255,0.2);
+    top: 25px;
+    right: 30px;
+    z-index: 9999;
   }
 
-  h1 {
-    color: purple;
-    margin-bottom: 20px;
+  /* Small button style */
+  .nav-button {
+    background: transparent;
+    color: #ccc;
+    padding: 10px 16px;
+    border: 2px solid #8a2be2;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    letter-spacing: 1.2px;
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+  }
+
+  .nav-button:hover {
+    background: #8a2be2;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(138,43,226,0.8);
+  }
+
+  /* GLITCH EFFECT FOR NAV BUTTON */
+  .nav-button:hover::before, .nav-button:hover::after {
+    content: "☰"; /* Needs to match button text */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #8a2be2;
+    color: #fff;
+    border-radius: 10px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.8;
+  }
+
+  .nav-button:hover::before {
+    left: -2px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.4s infinite alternate-reverse;
+  }
+
+  .nav-button:hover::after {
+    left: 2px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.4s infinite alternate-reverse 0.1s;
+  }
+
+  /* Dropdown Menu Styling */
+  #dropdownMenu {
+    position: fixed;
+    top: 60px; /* Adjusted position */
+    right: 30px;
+    background: #1a1a1a;
+    min-width: 180px;
+    box-shadow: 0 8px 30px rgba(138,43,226,0.7);
+    border-radius: 12px;
+    overflow: hidden;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    border: 1px solid #8a2be2;
+  }
+
+  #dropdownMenu a {
+    display: block;
+    padding: 12px 20px;
+    color: #d0cde1;
+    text-decoration: none;
+    font-size: 15px;
+    transition: background-color 0.25s ease, padding-left 0.25s ease;
+  }
+
+  #dropdownMenu a:hover {
+    background: #8a2be2;
+    color: white;
+    padding-left: 25px; /* Subtle hover effect */
+  }
+  
+  /* HR LINE */
+  hr {
+    border: none;
+    border-top: 2px solid rgba(138,43,226,0.5);
+    width: 80%;
+    max-width: 400px;
+    margin: 40px auto;
+    box-shadow: 0 0 10px rgba(138,43,226,0.3);
   }
 
   p {
-    margin-top: 20px;
-    font-size: 1.2em;
+    max-width: 800px;
+    margin: 20px auto;
+    font-size: 1.1rem;
+    color: #b8b8b8;
+    line-height: 1.7;
+    padding: 0 10px;
   }
+
+  .subheading {
+    font-size: 1.5rem;
+    color: #c1bbe6;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(138,43,226,0.4);
+  }
+
 
   /* Button styles */
   .add-music-btn {
@@ -52,58 +214,141 @@
     padding: 15px 30px;
     font-size: 1.2em;
     color: white;
-    background-color: purple;
-    border: none;
+    background-color: #8a2be2;
+    border: 2px solid #8a2be2;
     border-radius: 8px;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.3s;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
   }
 
   .add-music-btn:hover {
-    background-color: #b366e0;
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(138,43,226,0.8);
+  }
+  
+  /* GLITCH EFFECT FOR ADD MUSIC BUTTON */
+  .add-music-btn:hover::before, .add-music-btn:hover::after {
+    content: "Add Your Music"; /* Needs to match button text */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6a1b9a;
+    color: #fff;
+    border-radius: 8px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.9;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    font-size: 1.2em;
+  }
+
+  .add-music-btn:hover::before {
+    left: -1px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.3s infinite alternate-reverse;
+  }
+
+  .add-music-btn:hover::after {
+    left: 1px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.3s infinite alternate-reverse 0.15s;
+  }
+
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 25px 20px;
+    color: #777;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(138,43,226,0.2);
+    margin-top: 60px;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 480px) {
+    .nav-container {
+      top: 15px;
+      right: 15px;
+    }
+    #dropdownMenu {
+      top: 55px;
+      right: 15px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- Fixed top right menu -->
-<div class="nav-container" id="navContainer">
-  <button class="nav-button" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</button>
-</div>
+<div class="main-container">
+  <div class="nav-container" id="navContainer">
+    <button class="nav-button" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</button>
+  </div>
 
-<!-- Dropdown menu -->
-<div id="dropdownMenu" style="display:none; position: fixed; top: 50px; right: 10px; background-color: #222; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); z-index: 1000;">
-  <a href="index.html" style="display:block; padding:12px 16px; color:white; text-decoration:none;">Home</a>
+  <div id="dropdownMenu" style="display:none;">
+    <a href="index.html">🏠 Home</a>
+    <a href="explore.html">🎵 Explore Producers</a>
+    <a href="add-your-music.html">➕ Add your music</a>
+    <a href="contactme.html">📧 Contact Me</a>
+  </div>
+
+  <h1>Trap / HipHop Beats</h1>
+
+  <p class="subheading">No media available right now</p>
+
+  <p>This section is reserved for the hardest-hitting 808s, tightest snares, and most atmospheric synths in the Trap and HipHop genres. <br>
+    We are currently waiting for producers to submit their beats here!</p>
+
+  <hr>
+
+  <p>Don't let the silence last! If you are a producer, feel free to <a href="add-your-music.html" class="add-music-btn">Add Your Music</a> and share your beats with the community!</p>
+
+  <footer>
+    &copy; 2025 PrinceMorgan. All rights reserved.
+  </footer>
 </div>
 
 <script>
+  // Navigation Toggle Logic
   const menuButton = document.getElementById('menuButton');
   const dropdownMenu = document.getElementById('dropdownMenu');
 
-  menuButton.addEventListener('click', () => {
+  menuButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    // Toggle the display property
     if (dropdownMenu.style.display === 'block') {
       dropdownMenu.style.display = 'none';
+      menuButton.setAttribute('aria-expanded', 'false');
     } else {
       dropdownMenu.style.display = 'block';
+      menuButton.setAttribute('aria-expanded', 'true');
     }
   });
 
+  // Close dropdown on outside click
   document.addEventListener('click', (e) => {
     if (!dropdownMenu.contains(e.target) && e.target !== menuButton) {
       dropdownMenu.style.display = 'none';
+      menuButton.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close dropdown on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      dropdownMenu.style.display = 'none';
+      menuButton.setAttribute('aria-expanded', 'false');
     }
   });
 </script>
 
-<h1>No media available right now</h1>
-<p>HipHop/Trap Beats💿</p>
-<br>
-<hr>
-<p>Feel free to <a href="add-your-music.html" class="add-music-btn">Add Your Music</a> and share your beats with the community!</p>
-<br>
-<footer style="text-align: center; padding: 10px; color: gray;">
-  &copy; 2025 PrinceMorgan. All rights reserved.
-</footer>
 </body>
 </html>
