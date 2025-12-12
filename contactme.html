@@ -3,148 +3,347 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Contact Me</title>
+<title>ProdsX - Contact Me</title>
 <style>
-  body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
+  /* Base Styles (Consistent Theme) */
+  * {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
   }
-  /* Navigation styles - fixed top right, small button */
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background: #0a0a0a;
+    /* Adding subtle noise/texture to the background */
+    background-image: radial-gradient(circle at center, rgba(138,43,226, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: #e8e8e8;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 30px 20px 40px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8a2be2, #6a1b9a);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ab47bc, #8a2be2);
+  }
+
+  /* GLITCH KEYFRAMES */
+  @keyframes glitch-anim {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+
+  /* NAVIGATION */
   .nav-container {
     position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 999;
+    top: 25px;
+    right: 30px;
+    z-index: 9999;
+    font-weight: 600;
   }
   .dropdown {
     position: relative;
     display: inline-block;
+    font-size: 0.9rem;
   }
-  /* Small, unobtrusive button style */
   .dropbtn {
-    background-color: transparent;
-    color: white;
-    padding: 6px 10px;
-    border: 1px solid white;
-    border-radius: 4px;
+    /* Updated styles for consistent look */
+    background: transparent;
+    color: #ccc;
+    padding: 10px 16px;
+    border: 2px solid #8a2be2;
+    border-radius: 12px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 14px;
+    transition: all 0.3s ease;
+    letter-spacing: 1.2px;
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
   }
   .dropbtn:hover {
-    background-color: rgba(255,255,255,0.2);
+    background: #8a2be2;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(138,43,226,0.8);
   }
-  /* Dropdown menu positioned below button, aligned right */
+  /* GLITCH EFFECT FOR DROPBUTTON */
+  .dropbtn:hover::before, .dropbtn:hover::after {
+    content: "☰ Menu"; /* Needs to match button text */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #8a2be2;
+    color: #fff;
+    border-radius: 10px;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0.8;
+  }
+  .dropbtn:hover::before {
+    left: -2px;
+    text-shadow: 1px 0 0 #ff00c1;
+    animation: glitch-anim 0.4s infinite alternate-reverse;
+  }
+  .dropbtn:hover::after {
+    left: 2px;
+    text-shadow: -1px 0 0 #00ffff;
+    animation: glitch-anim 0.4s infinite alternate-reverse 0.1s;
+  }
+
   .dropdown-content {
     display: none;
     position: absolute;
     right: 0;
     top: 100%;
-    margin-top: 5px;
-    background-color: #222;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-    border-radius: 8px;
+    margin-top: 8px;
+    background: #1a1a1a;
+    min-width: 200px;
+    box-shadow: 0 8px 30px rgba(138,43,226,0.7);
+    border-radius: 12px;
     overflow: hidden;
-    z-index: 1000;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    border: 1px solid #8a2be2;
   }
   .dropdown.show .dropdown-content {
     display: block;
   }
   .dropdown-content a {
     display: block;
-    padding: 12px 16px;
-    color: white;
+    padding: 12px 20px;
+    color: #d0cde1;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
+    transition: background-color 0.25s ease, padding-left 0.25s ease;
   }
   .dropdown-content a:hover {
-    background-color: #555;
+    background: #8a2be2;
+    color: white;
+    padding-left: 25px; 
   }
+
+  /* Main Container (Added for consistent card-like wrapper) */
+  .main-content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(15, 15, 15, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(138,43,226,0.3), 0 0 0 1px rgba(138,43,226,0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(138,43,226,0.5);
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Heading */
   h1 {
     text-align: center;
-    color: purple;
-    margin-top: 80px;
+    color: #d0cde1;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    text-shadow: 0 0 10px rgba(138,43,226,0.5);
   }
+
+  /* Paragraph */
   p {
-    font-size: 1.2em;
-    text-align: center;
-    margin-top: 20px;
-  }
-  /* Buy Me Coffee section style */
-  .coffee-section {
-    margin-top: 40px;
-    padding: 20px;
-    border: 2px dashed gray;
-    border-radius: 8px;
+    font-size: 1.1em;
     max-width: 600px;
+    margin: 20px auto 0 auto;
+    color: #b8b8b8;
+  }
+  p a {
+    color: #8a2be2;
+    font-weight: 700;
+    text-decoration: none;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+  }
+  p a:hover {
+    color: #b57edc;
+    text-shadow: 0 0 5px rgba(138,43,226,0.8);
+    text-decoration: none;
+  }
+
+  /* Buy Me Coffee Section */
+  .coffee-section {
+    margin-top: 50px;
+    padding: 30px;
+    /* Styled to match the theme: glowing dashed border */
+    border: 3px dashed rgba(138,43,226,0.7);
+    border-radius: 12px;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #111;
+    background-color: rgba(26, 26, 26, 0.7);
     text-align: center;
+    box-shadow: 0 0 15px rgba(138,43,226,0.4);
   }
   .coffee-section h2 {
-    color: yellow;
-    margin-bottom: 10px;
+    color: #ffd700; /* Gold/Yellow accent for money/support */
+    margin-bottom: 15px;
+    font-weight: 800;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
   }
   .under-construction {
     margin-top: 10px;
     font-size: 1em;
-    color: #ccc;
+    color: #8a2be2;
+    font-style: italic;
   }
-  a {
-    color: purple;
+  .coffee-section a {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #555; /* Disabled color */
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #333;
+    border-radius: 8px;
     text-decoration: none;
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 25px 20px;
+    color: #777;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(138,43,226,0.2);
+    margin-top: auto; /* Pushes the footer to the bottom of the wrapper */
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body {
+      padding: 15px;
+    }
+    .main-content-wrapper {
+        padding: 20px 15px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 10px;
+    }
+    .coffee-section {
+      max-width: 95%;
+      padding: 20px;
+    }
+    .nav-container {
+        top: 15px;
+        right: 15px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- Fixed top right menu -->
 <div class="nav-container" id="navContainer">
   <div class="dropdown" id="navDropdown">
-    <button class="dropbtn" id="menuButton">☰</button>
-    <div class="dropdown-content" id="dropdownMenu">
-      <a href="index.html">Home</a>
-      <a href="explore.html">Explore Producers</a>
-      <a href="add-your-music.html">Become a Producer</a>
-      <a href="contact.html">Contact Me</a>
+    <button class="dropbtn" id="menuButton" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenu">☰ Menu</button>
+    <div class="dropdown-content" id="dropdownMenu" aria-hidden="true">
+      <a href="index.html">🏠 Home</a>
+      <a href="explore.html">🎵 Explore Producers</a>
+      <a href="add-your-music.html">➕ Become a Producer</a>
+      <a href="contactme.html">📧 Contact Me</a> 
     </div>
   </div>
 </div>
 
-<h1>Contact Me</h1>
-<p>Send me a message on WhatsApp: <a href="https://wa.me/27731036987" target="_blank">Chat on WhatsApp</a></p>
-<!-- Replace 1234567890 with your actual number in international format -->
+<div class="main-content-wrapper">
+  <h1>Contact Me</h1>
+  <p>For inquiries, support, or producer questions, the quickest way to reach the admin is via WhatsApp:</p>
 
-<!-- Buy Me Coffee Section -->
-<div class="coffee-section">
-  <h2>Buy Me Coffee (Under Construction)</h2>
-  <p class="under-construction">This feature is currently under development. Stay tuned!</p>
-  <a href="#" style="font-size:1.2em; font-weight: bold;">Buy Me a Coffee</a>
+  <p>Send me a message on WhatsApp: <a href="https://wa.me/27731036987" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></p>
+
+  <div class="coffee-section">
+    <h2>☕ Support the Platform</h2>
+    <p>Help keep ProdsX running smoothly!</p>
+    <p class="under-construction">This feature (Donations/Tips) is currently under development. Stay tuned!</p>
+    <a href="#" aria-disabled="true" tabindex="-1">Buy Me a Coffee</a>
+  </div>
+
+  <footer>
+    &copy; 2025 PrinceMorgan. All rights reserved.
+  </footer>
 </div>
 
 <script>
-  // Toggle menu
+  // Navigation Toggle Logic
   const menuBtn = document.getElementById('menuButton');
-  const dropdownDiv = document.getElementById('dropdownMenu');
+  const navDropdown = document.getElementById('navDropdown');
+  const dropdownMenu = document.getElementById('dropdownMenu');
 
-  if (menuBtn && dropdownDiv) {
-    menuBtn.addEventListener('click', () => {
-      dropdownDiv.parentElement.classList.toggle('show');
+  if (menuBtn && navDropdown) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      const newState = String(!expanded);
+      menuBtn.setAttribute('aria-expanded', newState);
+      dropdownMenu.setAttribute('aria-hidden', expanded); // If expanded is true, set hidden to false (inverse)
+      navDropdown.classList.toggle('show');
     });
+
     document.addEventListener('click', (e) => {
-      if (!dropdownDiv.contains(e.target) && e.target !== menuBtn) {
-        dropdownDiv.parentElement.classList.remove('show');
+      if (!navDropdown.contains(e.target) && e.target !== menuBtn) {
+        navDropdown.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        dropdownMenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        navDropdown.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        dropdownMenu.setAttribute('aria-hidden', 'true');
       }
     });
   }
 </script>
-<br>
-<footer style="text-align: center; padding: 10px; color: gray;">
-  &copy; 2025 PrinceMorgan. All rights reserved.
-</footer>
+
 </body>
 </html>
