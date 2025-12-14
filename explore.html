@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ProdsX - Explore Producers</title>
 <style>
-  /* Base Styles (White & Purple Theme) */
+  /* RESET & BASE STYLES - Clean Simple Design */
   * {
     margin: 0;
     padding: 0;
@@ -18,458 +18,426 @@
   }
 
   body {
-    background: linear-gradient(135deg, #f8f9ff 0%, #e8efff 50%, #ffffff 100%);
-    color: #2a2a2a;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9ff;
+    color: #1a1a1a;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 30px 20px 40px;
+    padding: 40px 20px 60px;
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0),
+      radial-gradient(circle at 25px 25px, rgba(0,0,0,0.01) 1px, transparent 0);
+    background-size: 50px 50px, 50px 50px;
   }
 
   /* Scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #f0f2ff;
+    background: #f0f0f0;
+    border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #8a2be2, #6a1b9a);
-    border-radius: 5px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #ab47bc, #8a2be2);
+    background: #333;
+    border-radius: 4px;
   }
 
-  /* GLITCH KEYFRAMES */
-  @keyframes glitch-anim {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
-  }
-
-  /* HEADER & TITLE */
+  /* HEADER */
   header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 25px;
-    position: relative;
+    margin-bottom: 30px;
   }
+
   h1 {
-    color: #6a1b9a;
+    color: #1a1a1a;
     margin: 0;
-    font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    text-shadow: 0 0 20px rgba(138,43,226,0.3);
-    text-align: center;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    letter-spacing: -0.02em;
   }
 
   /* NAVIGATION */
   .nav-container {
     position: fixed;
-    top: 25px;
+    top: 30px;
     right: 30px;
     z-index: 9999;
-    font-weight: 600;
   }
+
   .dropdown {
     position: relative;
     display: inline-block;
-    font-size: 0.9rem;
   }
+
   .dropbtn {
-    background: rgba(255,255,255,0.9);
-    color: #6a1b9a;
-    padding: 10px 16px;
-    border: 2px solid #8a2be2;
-    border-radius: 12px;
-    font-size: 16px;
+    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+    color: #1a1a1a;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 1.2px;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
   }
+
   .dropbtn:hover {
-    background: #8a2be2;
-    color: #fff;
-    box-shadow: 0 0 25px rgba(138,43,226,0.8);
+    background: linear-gradient(145deg, #1a1a1a, #333);
+    color: #ffffff;
+    border-color: #1a1a1a;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    transform: translateY(-4px) scale(1.05);
   }
-  .dropbtn:hover::before, .dropbtn:hover::after {
-    content: "☰";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #8a2be2;
-    color: #fff;
-    border-radius: 10px;
-    clip: rect(0, 0, 0, 0);
-    opacity: 0.8;
-  }
-  .dropbtn:hover::before {
-    left: -2px;
-    text-shadow: 1px 0 0 #ff00c1;
-    animation: glitch-anim 0.4s infinite alternate-reverse;
-  }
-  .dropbtn:hover::after {
-    left: 2px;
-    text-shadow: -1px 0 0 #00ffff;
-    animation: glitch-anim 0.4s infinite alternate-reverse 0.1s;
-  }
+
   .dropdown-content {
     display: none;
     position: absolute;
     right: 0;
     top: 100%;
-    margin-top: 8px;
-    background: rgba(255,255,255,0.95);
-    min-width: 190px;
-    box-shadow: 0 8px 30px rgba(138,43,226,0.4);
-    border-radius: 12px;
+    margin-top: 12px;
+    background: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+    border-radius: 20px;
     overflow: hidden;
-    font-weight: 500;
-    letter-spacing: 0.8px;
-    border: 1px solid rgba(138,43,226,0.3);
-    backdrop-filter: blur(15px);
+    border: 1px solid #e5e5e5;
   }
+
   .dropdown.show .dropdown-content {
     display: block;
+    animation: slideDown 0.3s ease-out;
   }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .dropdown-content a {
     display: block;
-    padding: 12px 20px;
-    color: #4a4a4a;
+    padding: 14px 20px;
+    color: #444;
     text-decoration: none;
-    font-size: 15px;
-    transition: all 0.25s ease;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f5f5f5;
   }
+
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+
   .dropdown-content a:hover {
-    background: #8a2be2;
-    color: white;
-    padding-left: 25px;
+    background: linear-gradient(90deg, #f0f4ff, #e8f0ff);
+    color: #1a1a1a;
+    padding-left: 28px;
   }
 
   /* HR LINE */
   hr {
     border: none;
-    border-top: 3px solid rgba(138,43,226,0.6);
-    width: 60%;
-    margin: 20px auto 40px auto;
-    max-width: 750px;
-    box-shadow: 0 0 15px rgba(138,43,226,0.2);
+    border-top: 4px solid #e5e5e5;
+    width: 70%;
+    margin: 30px auto 50px;
+    border-radius: 3px;
+    max-width: 600px;
   }
 
-  /* PRODUCERS CONTAINER */
+  /* PRODUCERS - 1 PER ROW MOBILE, THIN DESIGN */
   .producers-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
     margin: 0 auto;
   }
-  
+
   .producer {
-    background: rgba(255,255,255,0.95);
-    border: 2px solid rgba(138,43,226,0.3);
-    box-shadow: 0 8px 30px rgba(138,43,226,0.15);
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
     border-radius: 20px;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
-    width: 100%;
-    max-width: 550px; /* SLIMMER: was 650px */
-    min-height: 180px; /* SLIMMER: was 220px */
-    backdrop-filter: blur(10px);
+    height: 200px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
   }
 
   .producer:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(138,43,226,0.35);
-    border-color: #8a2be2;
-    background: rgba(255,255,255,1);
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    border-color: #333;
   }
-  
-  .producer-purple { 
-    background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232, 239, 255, 0.9)); 
-    border-color: rgba(138,43,226,0.5); 
-  }
-  .producer-lavender { 
-    background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(248, 249, 255, 0.9)); 
-    border-color: rgba(138,43,226,0.4); 
-  }
-  
-  /* SLIMMER HORIZONTAL LAYOUT */
+
+  .producer-purple { box-shadow: 0 15px 45px rgba(26,26,26,0.12); }
+  .producer-lavender { box-shadow: 0 12px 35px rgba(26,26,26,0.10); }
+
   .producer-inner {
     display: flex;
     height: 100%;
-    gap: 15px; /* SLIMMER: was 20px */
-    padding: 20px; /* SLIMMER: was 25px */
+    gap: 14px;
+    padding: 20px;
   }
-  
+
   .producer-image-section {
-    flex: 0 0 120px; /* SLIMMER: was 160px */
+    flex: 0 0 85px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  
+
   .producer-content-section {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 4px;
   }
-  
+
   .producer h2 { 
-    margin-bottom: 8px; /* SLIMMER: was 12px */
+    margin: 0;
     font-weight: 800; 
-    font-size: 1.1rem; /* SLIMMER: was 1.2rem */
-    text-align: left;
-    color: #2a2a2a;
-    text-shadow: none;
+    font-size: 1.1rem;
+    color: #1a1a1a;
   }
-  
+
   .producer-img { 
-    width: 110px; /* SLIMMER: was 140px */
-    height: 110px; /* SLIMMER: was 140px */
+    width: 80px;
+    height: 80px;
     object-fit: cover;
-    border-radius: 14px; 
-    box-shadow: 0 6px 25px rgba(0,0,0,0.15); 
+    border-radius: 12px; 
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); 
     transition: all 0.3s ease;
-    border: 3px solid rgba(138,43,226,0.3);
+    border: 2px solid #e0e0e0;
   }
-  
+
   .producer:hover .producer-img { 
-    filter: brightness(1.05); 
-    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
     transform: scale(1.05);
-    border-color: #8a2be2;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.20);
+    border-color: #333;
   }
-  
-  /* First producer audio styles - SLIMMED */
+
+  /* SIMPLE AUDIO CONTROLS */
+  .audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    background: #f8f9ff;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    flex: 1;
+  }
+
+  .audio-controls:hover {
+    background: #f0f4ff;
+    border-color: #333;
+  }
+
+  .play-pause-icon {
+    font-size: 18px;
+    font-weight: 900;
+    color: #1a1a1a;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
   .audio-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* SLIMMER: was 12px */
-    margin-top: 5px; /* SLIMMER: was 8px */
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    font-weight: 600;
+    flex: 1;
+    line-height: 1.3;
   }
-  
-  /* Second producer placeholder styles - SLIMMED */
-  .placeholder-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    padding: 5px 0; /* SLIMMER: was 10px */
-    font-size: 1rem; /* SLIMMER: was 1.1rem */
-    color: #6a1b9a;
+
+  .audio-genre {
+    font-size: 0.8rem;
+    color: #666;
     font-weight: 500;
+    margin-top: 1px;
   }
-  
+
+  .like-icon {
+    font-size: 18px;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 4px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .like-icon.liked {
+    color: #1a1a1a;
+    background: #f0f4ff;
+  }
+
+  .like-icon:hover {
+    color: #1a1a1a;
+    background: #e8f0ff;
+  }
+
   .price-box { 
-    display: inline-block; 
-    background: linear-gradient(135deg, #8a2be2, #6a1b9a);
+    background: linear-gradient(135deg, #1a1a1a, #333);
     color: white; 
-    padding: 5px 12px; /* SLIMMER: was 6px 14px */
-    border-radius: 18px; 
+    padding: 5px 12px;
+    border-radius: 14px; 
     font-weight: 700; 
-    font-size: 13px; /* SLIMMER: was 14px */
-    box-shadow: 0 4px 12px rgba(138,43,226,0.4);
+    font-size: 12px;
+    box-shadow: 0 4px 12px rgba(26,26,26,0.25);
     align-self: flex-start;
   }
-  
-  audio { 
-    width: 100%; 
-    outline: none; 
-    border-radius: 10px; /* SLIMMER: was 12px */
-    background: linear-gradient(145deg, #f8f9ff, #ffffff);
-    border: 2px solid rgba(138,43,226,0.3);
-  }
-  
-  audio::-webkit-media-controls-panel {
-    background-color: #f8f9ff;
-    color: #2a2a2a;
-  }
-  audio::-webkit-media-controls-play-button, 
-  audio::-webkit-media-controls-current-time-display, 
-  audio::-webkit-media-controls-time-remaining-display {
-    color: #6a1b9a !important;
-  }
-  audio::-webkit-media-controls-timeline {
-    background-color: #e8efff;
-    border-radius: 5px;
-  }
 
-  .audio-title { 
-    font-weight: 600; 
-    font-size: 0.9rem; /* SLIMMER: was 0.95rem */
-    user-select: none; 
-    color: #6a1b9a;
-  }
-  
-  .sound-comment { 
-    font-size: 0.8rem; /* SLIMMER: was 0.85rem */
-    font-style: italic; 
-    opacity: 0.8;
-    line-height: 1.3; /* TIGHTER: was 1.4 */
-    color: #4a4a4a;
-  }
-  
   .button-row { 
     display: flex; 
-    gap: 8px; /* SLIMMER: was 10px */
+    gap: 8px; 
     justify-content: flex-start;
-    flex-wrap: wrap;
   }
 
-  /* BUTTON STYLING - SLIMMED */
-  button { 
-    background: linear-gradient(135deg, #8a2be2, #6a1b9a);
-    color: white; 
-    border: 2px solid #8a2be2;
-    padding: 6px 14px; /* SLIMMER: was 8px 16px */
-    border-radius: 10px; 
-    cursor: pointer; 
-    font-weight: 700; 
-    font-size: 12px; /* SLIMMER: was 13px */
-    transition: all 0.3s ease; 
-    position: relative;
-    overflow: hidden;
-  }
-  button:hover { 
-    background: linear-gradient(135deg, #6a1b9a, #5a0b7a);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(138,43,226,0.5);
-  }
-  
   .get-in-touch { 
-    padding: 6px 14px; /* SLIMMER: was 8px 16px */
-    font-size: 12px; /* SLIMMER: was 13px */
-    background: linear-gradient(135deg, #8a2be2, #6a1b9a);
+    background: linear-gradient(135deg, #1a1a1a, #333);
     color: white; 
+    border: 2px solid #1a1a1a;
+    padding: 7px 14px;
     border-radius: 10px; 
-    text-decoration: none; 
     font-weight: 700; 
+    font-size: 11px;
+    text-decoration: none;
     transition: all 0.3s ease;
-    border: 2px solid #8a2be2;
-    box-shadow: 0 3px 10px rgba(138,43,226,0.3);
-    position: relative;
-    overflow: hidden;
+    display: inline-block;
+    flex: 1;
+    text-align: center;
   }
+
   .get-in-touch:hover { 
-    background: linear-gradient(135deg, #6a1b9a, #5a0b7a);
+    background: linear-gradient(135deg, #333, #1a1a1a);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(138,43,226,0.5);
+    box-shadow: 0 6px 20px rgba(26,26,26,0.3);
   }
 
-  /* Liked Beats Mini Box */
+  /* FUNCTIONAL MINI BOX */
   #likedMiniBox {
-    position: fixed; 
-    bottom: 25px; 
-    right: 30px; 
-    background: rgba(138, 43, 226, 0.1);
-    backdrop-filter: blur(20px);
-    width: 60px;
-    height: 60px; 
+    position: fixed; bottom: 30px; right: 30px; 
+    background: #ffffff;
+    width: 64px; height: 64px; 
     border-radius: 50%;
-    border: 2px solid rgba(138, 43, 226, 0.5);
-    box-shadow: 0 4px 25px rgba(138, 43, 226, 0.3);
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
     cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    display: flex; align-items: center; justify-content: center; 
     z-index: 1100;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
   }
-  #likedMiniBox:hover {
-    box-shadow: 0 8px 40px rgba(138, 43, 226, 0.6);
-    background: rgba(138, 43, 226, 0.2);
-  }
+
+  #likedMiniBox:hover { transform: scale(1.1); }
   #likedMiniBox.expanded {
-    width: 340px;
-    height: 400px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(24px);
-    border: 1px solid #8a2be2;
-    padding: 20px;
-  }
-  #likedMiniBoxIcon {
-    color: #8a2be2;
-    text-shadow: 0 0 5px rgba(138, 43, 226, 0.7);
-    font-size: 30px;
-    transition: all 0.3s ease;
-  }
-  #likedMiniBoxContent {
-    display: none;
-    margin-top: 10px;
-    width: 100%;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-  #likedMiniBox.expanded #likedMiniBoxContent {
-    display: block;
+    width: 380px; height: 450px; border-radius: 24px; 
+    background: #ffffff; border: 2px solid #333; padding: 24px;
+    flex-direction: column;
   }
 
-  /* RESPONSIVE DESIGN - ADJUSTED FOR SLIMMER */
-  @media (max-width: 900px) {
+  #likedMiniBoxIcon { 
+    color: #1a1a1a; 
+    font-size: 28px; 
+    font-weight: 900; 
+  }
+
+  #likedMiniBoxContent { 
+    display: none; 
+    margin-top: 16px; 
+    width: 100%; 
+    flex-grow: 1; 
+    overflow-y: auto; 
+    gap: 12px;
+  }
+
+  #likedMiniBox.expanded #likedMiniBoxContent { 
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  .liked-beat-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8f9ff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .liked-beat-mini .mini-unlike {
+    color: #1a1a1a;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    body { padding: 25px 15px 60px; }
+    
     .producers-container {
+      grid-template-columns: 1fr;
       gap: 20px;
+      max-width: 500px;
     }
+
+    .producer {
+      height: 180px;
+    }
+
     .producer-inner {
-      flex-direction: column;
-      padding: 18px; /* SLIMMER: was 20px */
-      gap: 12px; /* SLIMMER: was 15px */
+      padding: 18px;
+      gap: 12px;
     }
+
     .producer-image-section {
-      flex: none;
-      order: 1;
+      flex: 0 0 75px;
     }
-    .producer-content-section {
-      order: 2;
-    }
+
     .producer-img {
-      width: 100%;
-      max-width: 160px; /* SLIMMER: was 200px */
-      height: 120px; /* SLIMMER: was 160px */
-      margin: 0 auto;
+      width: 70px;
+      height: 70px;
     }
+
     .producer h2 {
-      text-align: center;
+      font-size: 1rem;
     }
-    .button-row {
-      justify-content: center;
+
+    .audio-info {
+      font-size: 0.85rem;
     }
+
+    .audio-genre {
+      font-size: 0.75rem;
+    }
+
+    .get-in-touch {
+      font-size: 11px;
+      padding: 6px 12px;
+    }
+
     .nav-container { top: 20px; right: 20px; }
+    #likedMiniBox { bottom: 20px; right: 20px; }
   }
 
-  @media (max-width: 500px) {
-    body {
-      padding: 20px 15px 40px;
-    }
-    .producer {
-      margin-bottom: 20px;
-      max-width: 100%;
-    }
-    .producer-inner {
-      padding: 15px 12px; /* SLIMMER: was 18px 15px */
-    }
-    h1 { font-size: 2rem; }
-    .nav-container { top: 15px; right: 15px; }
+  @media (max-width: 480px) {
+    .producers-container { gap: 18px; }
+    .producer { height: 170px; }
+    .producer-inner { padding: 16px; }
   }
 </style>
 </head>
@@ -491,38 +459,35 @@
 <hr>
 
 <div class="producers-container">
-  <!-- FIRST PRODUCER BLOCK -->
-  <div class="producer producer-purple" data-id="producer1">
+  <!-- FIRST PRODUCER -->
+  <div class="producer producer-purple" data-producer="producer1">
     <div class="producer-inner">
       <div class="producer-image-section">
         <img src="kasimode.jpg" alt="BlancoXCBeats" class="producer-img" />
       </div>
       <div class="producer-content-section">
-        <div>
-          <h2>Producer: BlancoXCBeats</h2>
-          <div class="price-box">Price: R350</div>
-          <div class="audio-info">
-            <audio controls><source src="KASI MODE 4.mp3" type="audio/mpeg" /></audio>
-            <div class="audio-title">Kasi Mode project 4</div>
-            <div class="sound-comment">Slow Soulful Trap beat (demo).</div>
+        <h2>Producer: BlancoXCBeats</h2>
+        <div class="price-box">Price: R350</div>
+        <div class="audio-controls" onclick="togglePlayback()">
+          <span class="play-pause-icon" id="playIcon1">▶</span>
+          <div>
+            <div class="audio-info">Kasi Mode project 4</div>
+            <div class="audio-genre">Slow Soulful Trap</div>
           </div>
+          <span class="like-icon" id="likeIcon1" onclick="toggleLike(event, this, {id: 'beat1', title: 'Kasi Mode project 4', producer: 'BlancoXCBeats'})">♡</span>
         </div>
         <div class="button-row">
-          <button 
-            onclick="toggleLike(this, 'producer1', 'song1', { id: 'producer1_song1', producer: 'BlancoXCBeats', title: 'Kasi Mode project 4', src: 'KASI MODE 4.mp3', whatsapp: 'https://wa.me/27731036987' })"
-            data-text="Like"
-          >Like</button>
           <a href="https://wa.me/27731036987" class="get-in-touch" target="_blank">Get in Touch</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SECOND PLACEHOLDER BLOCK -->
-  <div class="producer producer-lavender" data-id="producer2">
+  <!-- SECOND PRODUCER -->
+  <div class="producer producer-lavender" data-producer="producer2">
     <div class="producer-inner">
       <div class="producer-image-section">
-        <img src="kasimode.jpg" alt="Your Music" class="producer-img" style="filter: grayscale(100%) brightness(0.3);" />
+        <img src="kasimode.jpg" alt="Your Music" class="producer-img" style="filter: grayscale(100%) brightness(0.4);" />
       </div>
       <div class="producer-content-section">
         <div class="placeholder-content">
@@ -537,150 +502,125 @@
   </div>
 </div>
 
-<div id="likedMiniBox" aria-label="Liked beats panel" title="Your liked beats" role="region" aria-expanded="false" tabindex="0">
-  <div id="likedMiniBoxIcon" aria-hidden="true" role="button" tabindex="0" title="Toggle liked beats list">❤️</div>
-  <div id="likedMiniBoxContent" tabindex="0" aria-live="polite"></div>
+<div id="likedMiniBox" aria-label="Liked beats" title="Your liked beats">
+  <div id="likedMiniBoxIcon">♥</div>
+  <div id="likedMiniBoxContent"></div>
 </div>
 
-<footer style="text-align: center; padding: 10px; color: #888;">
-  &copy; 2025 PrinceMorgan. All rights reserved.
+<footer style="text-align: center; padding: 30px 20px; color: #666; border-top: 1px solid #eee; margin-top: 60px;">
+  &copy; 2025 PrinceMorgan. All rights reserved. | ProdsX - Premium Beat Marketplace
 </footer>
 
 <script>
-  // [Same JavaScript as before - unchanged]
+  // Navigation
   const menuBtn = document.getElementById('menuButton');
   const navDropdown = document.getElementById('navDropdown');
   if (menuBtn && navDropdown) {
     menuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navDropdown.classList.toggle('show');
+      e.stopPropagation();
+      navDropdown.classList.toggle('show');
     });
     document.addEventListener('click', (e) => {
-        if (!navDropdown.contains(e.target) && e.target !== menuBtn) {
-            navDropdown.classList.remove('show');
-        }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+      if (!navDropdown.contains(e.target) && e.target !== menuBtn) {
         navDropdown.classList.remove('show');
       }
     });
   }
 
-  const likedMiniBox = document.getElementById('likedMiniBox');
-  const likedMiniBoxContent = document.getElementById('likedMiniBoxContent');
-  const likedMiniBoxIcon = document.getElementById('likedMiniBoxIcon');
-  let isMiniBoxOpen = false;
-
-  window.onload = () => {
-    refreshLikeButtons();
-    refreshLikedMiniBox();
-  };
-
-  function refreshLikeButtons() {
-    document.querySelectorAll('.producer button').forEach(btn => {
-      const onclickAttr = btn.getAttribute('onclick');
-      const beatDetailsMatch = onclickAttr.match(/{.*?}/);
-      if (!beatDetailsMatch) return;
-      const beatDetails = JSON.parse(beatDetailsMatch[0].replace(/'/g, '"'));
-      const id = beatDetails.id;
-      const data = JSON.parse(localStorage.getItem('likes_' + id) || '{}');
-      btn.innerText = data.liked ? 'Unlike' : 'Like';
-      btn.setAttribute('data-text', btn.innerText);
-    });
+  // Audio playback
+  const audio = new Audio('KASI MODE 4.mp3');
+  audio.preload = 'auto';
+  
+  function togglePlayback() {
+    if (audio.paused) {
+      audio.play();
+      document.getElementById('playIcon1').textContent = '⏸';
+    } else {
+      audio.pause();
+      document.getElementById('playIcon1').textContent = '▶';
+    }
   }
 
-  function toggleLike(btn, producerId, songId, beatDetails) {
-    const id = beatDetails.id;
-    const key = 'likes_' + id;
-    const data = JSON.parse(localStorage.getItem(key) || '{}');
-    let likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+  // Like/Unlike functionality
+  let likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
+  const likedMiniBox = document.getElementById('likedMiniBox');
+  const likedMiniBoxContent = document.getElementById('likedMiniBoxContent');
 
-    if (data.liked) {
-      localStorage.removeItem(key);
-      likedBeats = likedBeats.filter(b => b.id !== id);
-      btn.innerText = 'Like';
+  function toggleLike(event, icon, beatData) {
+    event.stopPropagation();
+    
+    const existingIndex = likedBeats.findIndex(b => b.id === beatData.id);
+    if (existingIndex > -1) {
+      // Unlike
+      likedBeats.splice(existingIndex, 1);
+      icon.classList.remove('liked');
+      icon.textContent = '♡';
     } else {
-      localStorage.setItem(key, JSON.stringify({ liked: true }));
-      if (!likedBeats.some(b => b.id === id)) likedBeats.push(beatDetails);
-      btn.innerText = 'Unlike';
+      // Like
+      likedBeats.push(beatData);
+      icon.classList.add('liked');
+      icon.textContent = '♥';
     }
     
-    btn.setAttribute('data-text', btn.innerText);
     localStorage.setItem('likedBeats', JSON.stringify(likedBeats));
     refreshLikedMiniBox();
   }
 
   function refreshLikedMiniBox() {
-    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
     likedMiniBoxContent.innerHTML = '';
     likedMiniBox.style.display = likedBeats.length ? 'flex' : 'none';
-
+    
     if (likedBeats.length === 0) {
       likedMiniBox.classList.remove('expanded');
-      likedMiniBox.setAttribute('aria-expanded', 'false');
-      isMiniBoxOpen = false;
       return;
     }
 
-    likedBeats.forEach(beat => {
-      const card = document.createElement('div');
-      card.className = 'liked-beat-card';
-      card.innerHTML = `
-        <div class="liked-beat-info">
-         <div class="liked-beat-title">${beat.title}</div>
-         <div class="liked-beat-producer">by ${beat.producer}</div>
+    likedBeats.forEach((beat, index) => {
+      const beatDiv = document.createElement('div');
+      beatDiv.className = 'liked-beat-mini';
+      beatDiv.innerHTML = `
+        <div style="flex: 1;">
+          <div style="font-weight: 600; font-size: 0.95rem;">${beat.title}</div>
+          <div style="font-size: 0.8rem; color: #666;">${beat.producer}</div>
         </div>
-        <audio controls src="${beat.src}" preload="none"></audio>
-        <div style="margin-top: 10px;">
-         <button class="mini-unlike-btn" onclick="unlikeFromMini('${beat.id}')">Unlike</button>
-         <a href="${beat.whatsapp || 'https://wa.me/27731036987'}" class="mini-contact-btn" target="_blank">Contact</a>
-        </div>
+        <button class="mini-unlike" onclick="unlikeBeat(${index})" title="Unlike">♥</button>
       `;
-      likedMiniBoxContent.appendChild(card);
+      likedMiniBoxContent.appendChild(beatDiv);
     });
   }
 
-  function unlikeFromMini(beatId) {
-    const mainPageBtn = document.querySelector(`.producer button[onclick*="'${beatId}'"]`);
-    if (mainPageBtn) {
-        mainPageBtn.innerText = 'Like';
-        mainPageBtn.setAttribute('data-text', 'Like');
-    }
-    
-    localStorage.removeItem('likes_' + beatId);
-    const likedBeats = JSON.parse(localStorage.getItem('likedBeats') || '[]');
-    const newLikedBeats = likedBeats.filter(b => b.id !== beatId);
-    localStorage.setItem('likedBeats', JSON.stringify(newLikedBeats));
+  function unlikeBeat(index) {
+    likedBeats.splice(index, 1);
+    localStorage.setItem('likedBeats', JSON.stringify(likedBeats));
     refreshLikedMiniBox();
+    
+    // Update main like button
+    const likeIcon = document.getElementById('likeIcon1');
+    if (likedBeats.find(b => b.id === 'beat1')) {
+      likeIcon.classList.add('liked');
+      likeIcon.textContent = '♥';
+    } else {
+      likeIcon.classList.remove('liked');
+      likeIcon.textContent = '♡';
+    }
   }
 
-  likedMiniBoxIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    isMiniBoxOpen = !likedMiniBox.classList.contains('expanded');
-    const isExpanded = likedMiniBox.classList.toggle('expanded');
-    likedMiniBox.setAttribute('aria-expanded', isExpanded);
-  });
-
+  // Mini box toggle
   likedMiniBox.addEventListener('click', (e) => {
-    e.stopPropagation();
+    if (e.target === likedMiniBoxIcon || e.target === likedMiniBox) {
+      likedMiniBox.classList.toggle('expanded');
+    }
   });
 
+  // Close mini box when clicking outside
   document.addEventListener('click', (e) => {
-    if (!likedMiniBox.contains(e.target) && isMiniBoxOpen) {
+    if (!likedMiniBox.contains(e.target)) {
       likedMiniBox.classList.remove('expanded');
-      likedMiniBox.setAttribute('aria-expanded', 'false');
-      isMiniBoxOpen = false;
     }
   });
 
-  document.body.addEventListener('play', e => {
-    if (e.target.tagName === 'AUDIO') {
-      document.querySelectorAll('audio').forEach(audio => {
-        if (audio !== e.target) audio.pause();
-      });
-    }
-  }, true);
+  // Init
+  refreshLikedMiniBox();
 </script>
 
 </body>
