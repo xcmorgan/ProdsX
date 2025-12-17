@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ProdsX - Sample Packs</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: #f8f9ff;
+    color: #1a1a1a;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    text-align: center;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0),
+      radial-gradient(circle at 25px 25px, rgba(0,0,0,0.01) 1px, transparent 0);
+    background-size: 50px 50px, 50px 50px;
+  }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+  /* BUY ALL BUTTON - TOP CENTER */
+  .buy-all-btn {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    background: linear-gradient(145deg, #c62828, #d32f2f);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 800;
+    box-shadow: 0 12px 35px rgba(198, 40, 40, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .buy-all-btn:hover {
+    transform: translateX(-50%) translateY(-3px) scale(1.03);
+    box-shadow: 0 18px 45px rgba(198, 40, 40, 0.6);
+    background: linear-gradient(145deg, #b71c1c, #c62828);
+  }
+
+  /* PASSWORD BUTTON - TOP LEFT */
+  .password-info {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 9998;
+    background: linear-gradient(145deg, #8e24aa, #5e35b1);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(142, 36, 170, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 280px;
+    line-height: 1.4;
+  }
+  .password-info:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(142, 36, 170, 0.5);
+    background: linear-gradient(145deg, #7b1fa2, #512da8);
+  }
+
+  /* VIDEO CONTROLS */
+  .video-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+  }
+  .play-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    border: 2px solid white;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  .play-toggle:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .play-toggle.playing {
+    background: #4caf50;
+    color: white;
+  }
+
+  /* PASSWORD MODAL */
+  .password-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 10001;
+    backdrop-filter: blur(8px);
+  }
+  .password-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .password-modal-content {
+    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+    border-radius: 24px;
+    max-width: 450px;
+    width: 90%;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+    position: relative;
+    border: 3px solid #8e24aa;
+  }
+  .password-modal-header {
+    padding: 24px;
+    background: linear-gradient(90deg, #8e24aa, #5e35b1);
+    color: white;
+    border-radius: 21px 21px 0 0;
+    text-align: center;
+  }
+  .password-modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .close-password-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .password-steps {
+    padding: 32px 24px 24px;
+    text-align: left;
+  }
+  .step-item {
+    background: linear-gradient(145deg, #f3e5f5, #f1f3f4);
+    padding: 20px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    border-left: 5px solid #8e24aa;
+    box-shadow: 0 4px 15px rgba(142,36,170,0.1);
+    transition: all 0.3s ease;
+  }
+  .step-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 25px rgba(142,36,170,0.2);
+  }
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(145deg, #8e24aa, #5e35b1);
+    color: white;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 16px;
+    margin-right: 12px;
+    box-shadow: 0 4px 12px rgba(142,36,170,0.4);
+  }
+  .step-text {
+    font-size: 1rem;
+    color: #1a1a1a;
+    line-height: 1.6;
+    font-weight: 500;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 50px);
+  }
+  .step-text strong { color: #8e24aa; }
+
+  .main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 30px 50px 30px;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow:
+      0 25px 70px rgba(0,0,0,0.08),
+      0 0 0 1px rgba(0,0,0,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+
+  .hero-section { position: relative; }
+  .hero-glow { position: relative; }
+  .hero-glow::before {
+    content: ''; position: absolute; top: -20px; left: 50%;
+    transform: translateX(-50%); width: 0; height: 4px;
+    background: linear-gradient(90deg, transparent, #c62828, transparent);
+    border-radius: 2px; animation: glowSweep 3s ease-in-out infinite;
+  }
+  @keyframes glowSweep { 0%, 100% { width: 0; } 50% { width: 120px; } }
+  .hero-subtitle { animation: fadeInUp 1.2s ease-out 0.3s both; opacity: 0; }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  h1 { color: #1a1a1a; margin-bottom: 16px; font-weight: 900; font-size: clamp(3rem, 8vw, 5rem); letter-spacing: -0.03em; }
+
+  .nav-container {
+    position: fixed; top: 30px; right: 30px; z-index: 9999;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .dropdown { position: relative; display: inline-block; }
+  .dropbtn {
+    background: linear-gradient(145deg, #ffffff, #f8f9ff); color: #1a1a1a;
+    padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 50px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    letter-spacing: 0.5px; box-shadow: 0 8px 25px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+    position: relative; overflow: hidden;
+  }
+  .dropbtn::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+  }
+  .dropbtn:hover::before { left: 100%; }
+  .dropbtn:hover {
+    background: linear-gradient(145deg, #1a1a1a, #333); color: #ffffff;
+    border-color: #1a1a1a; box-shadow: 0 15px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+    transform: translateY(-4px) scale(1.05);
+  }
+  .dropdown-content {
+    display: none; position: absolute; right: 0; top: 100%; margin-top: 12px;
+    background: #ffffff; min-width: 220px; box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+    border-radius: 20px; overflow: hidden; border: 1px solid #e5e5e5;
+  }
+  .dropdown.show .dropdown-content { display: block; animation: slideDown 0.3s ease-out; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  .dropdown-content a {
+    display: block; padding: 14px 20px; color: #444; text-decoration: none;
+    font-size: 14px; font-weight: 500; transition: all 0.3s ease; border-bottom: 1px solid #f5f5f5;
+  }
+  .dropdown-content a:last-child { border-bottom: none; }
+  .dropdown-content a:hover {
+    background: linear-gradient(90deg, #f0f4ff, #e8f0ff); color: #1a1a1a;
+    padding-left: 28px; box-shadow: inset 4px 0 0 #1a1a1a;
+  }
+
+  /* CART SUMMARY - CLICKABLE */
+  .cart-summary {
+    background: #111; color: #fff; padding: 10px 18px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4); cursor: pointer; transition: all 0.3s ease;
+  }
+  .cart-summary:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+  .cart-summary span { white-space: nowrap; }
+  .cart-discount { color: #4caf50; }
+  .cart-badge { 
+    background: #c62828; border-radius: 50%; width: 20px; height: 20px; 
+    font-size: 11px; display: flex; align-items: center; justify-content: center; 
+  }
+
+  /* CART MODAL */
+  .cart-modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 10000; backdrop-filter: blur(5px);
+  }
+  .cart-modal.show { display: flex; align-items: center; justify-content: center; }
+  .cart-modal-content {
+    background: #ffffff; border-radius: 24px; max-width: 500px; width: 90%; max-height: 80vh;
+    overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.4); position: relative;
+  }
+  .cart-modal-header {
+    padding: 24px 24px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;
+  }
+  .cart-modal-title { font-size: 1.5rem; font-weight: 800; color: #1a1a1a; }
+  .close-modal { background: none; border: none; font-size: 2rem; cursor: pointer; color: #666; }
+  .clear-cart-btn { 
+    background: #ff9800; color: white; border: none; padding: 8px 16px; 
+    border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; 
+    transition: all 0.3s ease; margin-left: auto; 
+  }
+  .clear-cart-btn:hover { background: #f57c00; transform: translateY(-1px); }
+  .cart-item {
+    display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;
+    border-bottom: 1px solid #f5f5f5; gap: 12px;
+  }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-info { flex: 1; text-align: left; }
+  .cart-item-name { font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .cart-item-price { color: #1a1a1a; font-weight: 600; font-size: 1rem; }
+  .remove-item { background: #ff4444; color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; }
+  .cart-total-section {
+    padding: 20px 24px; background: #f8f9ff; border-top: 1px solid #eee;
+  }
+  .subtotal { display: flex; justify-content: space-between; margin-bottom: 8px; color: #666; }
+  .total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; color: #1a1a1a; margin-bottom: 16px; }
+  .discount-row { display: flex; justify-content: space-between; color: #4caf50; font-weight: 600; }
+  .checkout-btn {
+    width: 100%; padding: 16px; background: linear-gradient(145deg, #c62828, #a52721);
+    color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+    cursor: pointer; transition: all 0.3s ease; margin-bottom: 12px;
+  }
+  .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(198, 40, 40, 0.4); }
+  .payment-info {
+    font-size: 0.75rem; color: #666; text-align: center; line-height: 1.4;
+    background: #f0f8ff; padding: 12px; border-radius: 8px; border-left: 3px solid #4caf50;
+  }
+  .empty-cart { padding: 40px 24px; text-align: center; color: #666; }
+
+  .coming-soon-section { margin-top: 80px; }
+  .coming-soon-title { font-size: 2.2rem; color: #1a1a1a; margin-bottom: 10px; font-weight: 800; letter-spacing: -0.02em; }
+  .discount-note { font-size: 0.95rem; color: #4caf50; font-weight: 600; margin-bottom: 30px; }
+
+  .samplepacks-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    max-width: 1200px; margin: 0 auto 40px; padding: 20px 0;
+  }
+  @media (min-width: 1200px) { .samplepacks-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 768px) { .samplepacks-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
+  @media (max-width: 480px) { .samplepacks-grid { grid-template-columns: 1fr; } }
+
+  .sample-card {
+    height: 460px; display: flex; flex-direction: column; background: #ffffff;
+    border-radius: 20px; box-shadow: 0 12px 35px rgba(0,0,0,0.08), 0 4px 15px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.06); transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative; overflow: hidden;
+  }
+  .sample-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, transparent, #333, transparent); opacity: 0; transition: opacity 0.3s ease;
+  }
+  .sample-card:hover { 
+    transform: translateY(-8px) scale(1.02); 
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15), 0 8px 25px rgba(0,0,0,0.08); 
+    border-color: #333; 
+  }
+  .sample-card:hover::before { opacity: 1; }
+  .sample-card.blur { filter: blur(2px); opacity: 0.4; cursor: not-allowed; }
+  .sample-card.blur:hover { transform: none; filter: blur(2px) grayscale(0.3); opacity: 0.4; }
+
+  .sample-img, .video-player { width: 100%; height: 160px; object-fit: cover; border-radius: 16px 16px 0 0; background: #000; }
+  .video-player { cursor: pointer; position: relative; }
+
+  .bottom-icons { 
+    position: absolute; bottom: 12px; right: 12px; display: flex; gap: 8px; z-index: 10; 
+  }
+  .premium-diamond { 
+    font-size: 1.4rem; color: #c62828; text-shadow: 0 2px 4px rgba(198, 40, 40, 0.3); 
+  }
+
+  /* ICON CIRCLES */
+  .icon-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* VIEW BUTTON */
+  .view-btn {
+    background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  /* PAID - Cart icon (clean black, green when added) */
+  .cart-icon {
+    background: rgba(26, 26, 26, 0.85);
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+  }
+  .cart-icon:hover {
+    background: #1a1a1a;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+  .cart-icon.added {
+    background: #4caf50 !important;
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  }
+
+  /* FREE - Green download icon */
+  .download-icon {
+    background: #4caf50;
+    color: #ffffff;
+  }
+  .download-icon:hover {
+    background: #3f9143;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  }
+
+  /* HIDE TEXT BUTTONS COMPLETELY */
+  .add-cart-btn { display: none !important; }
+
+  .sample-content { padding: 0 20px 24px; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
+  .file-size-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #1a1a1a, #333); color: #ffffff; padding: 6px 16px;
+    border-radius: 20px; font-size: 0.85rem; font-weight: 700; width: fit-content; margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .file-size-badge.small { background: linear-gradient(145deg, #4caf50, #45a049) !important; }
+  .free-badge { background: linear-gradient(145deg, #4caf50, #45a049) !important; }
+  .sample-name { font-size: 1.3rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0; letter-spacing: -0.01em; }
+  .sample-genre { font-size: 1rem; color: #666; font-weight: 500; margin-bottom: 0; }
+  .price-tag { 
+    font-size: 1.1rem; font-weight: 700; 
+    background: linear-gradient(135deg, #1a1a1a, #333); 
+    color: #ffffff; 
+    padding: 6px 16px; 
+    border-radius: 20px; 
+    display: inline-block;
+    margin-bottom: 0; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .free-tag { 
+    background: linear-gradient(135deg, #4caf50, #45a049) !important; 
+    color: #ffffff !important; 
+    font-weight: 800 !important; 
+  }
+  .contents-section { margin: 16px 0; flex-grow: 1; }
+  .contents-section hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, #ddd, transparent); margin-bottom: 12px; }
+  .contents-list { font-size: 0.65rem; color: #555; line-height: 1.6; text-align: left; }
+  .contents-list li { margin-bottom: 6px; padding-left: 4px; }
+  .contents-list li::before { content: "•"; color: #c62828; font-weight: bold; margin-right: 6px; }
+
+  .coming-soon-text { font-size: 1.15rem; color: #666; font-weight: 500; margin: 40px 0; }
+  p { max-width: 1000px; margin: 0 auto 28px auto; font-size: 1.15rem; color: #333; line-height: 1.85; }
+  footer { text-align: center; padding: 40px 20px; color: #666; font-size: 1rem; margin-top: 80px; border-top: 1px solid #eee; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    body { padding: 25px 15px; }
+    .main-container { padding: 140px 20px 35px 20px; border-radius: 20px; }
+    .sample-card { height: 420px; }
+    .video-player, .sample-img { height: 140px; }
+    .icon-circle { width: 40px; height: 40px; font-size: 1.2rem; }
+    .premium-diamond { font-size: 1.3rem; }
+    .cart-summary { padding: 8px 12px; font-size: 12px; }
+    .password-info { 
+      left: 15px; right: 15px; margin: 0 15px; 
+      font-size: 12px; padding: 10px 16px; max-width: none;
+    }
+    .buy-all-btn { 
+      font-size: 14px; padding: 12px 24px; 
+      position: static; transform: none; margin: 0 auto 20px; display: block;
+    }
+  }
+  @media (max-width: 480px) {
+    .sample-card { height: 400px; }
+    .video-player, .sample-img { height: 130px; }
+    .sample-name { font-size: 1.15rem; }
+    .icon-circle { width: 38px; height: 38px; font-size: 1.1rem; }
+    .premium-diamond { font-size: 1.2rem; }
+    .contents-list { font-size: 0.6rem; }
+    .play-toggle { width: 32px; height: 32px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BUY ALL BUTTON -->
+<button class="buy-all-btn" onclick="buyAllPacks()">🛒 Buy All Packs = R100</button>
+
+<!-- PASSWORD INFO BUTTON -->
+<div class="password-info" onclick="togglePasswordModal()">
+  🔒 To get passwords: 1️⃣ Add to cart → 2️⃣ WhatsApp order → 3️⃣ Pay = Get all passwords!
+</div>
+
+<div class="nav-container" id="navContainer">
+  <!-- Cart summary - CLICKABLE -->
+  <div class="cart-summary" id="cartSummary" onclick="toggleCartModal()">
+    <div class="cart-badge" id="cartBadge">0</div>
+    <span id="cartItems">0 items</span>
+    <span>|</span>
+    <span id="cartTotal">Total: R0.00</span>
+    <span class="cart-discount" id="cartDiscount">No discount yet</span>
+    🛒
+  </div>
+
+  <div class="dropdown" id="navDropdown">
+    <button class="dropbtn" id="menuButton">☰ Menu</button>
+    <div class="dropdown-content" id="dropdownMenu">
+      <a href="index.html">🏠 Home</a>
+      <a href="explore.html">🎵 Explore Producers</a>
+      <a href="add-your-music.html">➕ Add your music</a>
+      <a href="contactme.html">📧 Contact Me</a>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="password-modal" id="passwordModal">
+  <div class="password-modal-content">
+    <div class="password-modal-header">
+      <h2 class="password-modal-title">🔒 How to Get Passwords</h2>
+      <button class="close-password-modal" onclick="togglePasswordModal()">×</button>
+    </div>
+    <div class="password-steps">
+      <div class="step-item">
+        <span class="step-number">1</span>
+        <div class="step-text">
+          <strong>Add items to cart</strong><br>
+          Click 🛒 icons on any sample packs you want to purchase
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-number">2</span>
+        <div class="step-text">
+          <strong>Send order to WhatsApp</strong><br>
+          Click cart 🛒 → "Send Order to WhatsApp" to get your file links ready
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-number">3</span>
+        <div class="step-text">
+          <strong>Pay total discounted price</strong><br>
+          Once payment confirmed, <strong>ALL passwords for your packs will be provided instantly</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-modal-content">
+    <div class="cart-modal-header">
+      <div class="cart-modal-title">Your Cart</div>
+      <button class="close-modal" onclick="toggleCartModal()">×</button>
+    </div>
+    <div id="cartItemsList"></div>
+    <div class="cart-total-section">
+      <div class="subtotal">
+        <span>Subtotal:</span>
+        <span id="cartSubtotal">R0.00</span>
+      </div>
+      <div class="discount-row" id="cartDiscountRow" style="display: none;">
+        <span>Discount:</span>
+        <span id="cartDiscountAmount">R0.00</span>
+      </div>
+      <div class="total-row">
+        <span>Total:</span>
+        <span id="cartFinalTotal">R0.00</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="checkoutWhatsApp()" style="display: none;">
+        💬 Send Order to WhatsApp
+      </button>
+      <div class="payment-info">
+        💳 Payment options: EFT or use OTT Voucher if you don't have a bank account
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-container">
+  <div class="hero-section">
+    <h1 class="hero-glow">Sample Packs</h1>
+    <p class="hero-subtitle">
+      Premium sample packs coming soon!<br>
+      Save BIG when you buy multiple packs – automatic discounts apply in your cart.
+    </p>
+  </div>
+
+  <div class="coming-soon-section">
+    <div class="coming-soon-title">Sample Packs Preview</div>
+    <div class="discount-note">
+      🎉 LIMITED TIME: 2 items = <strong>10%</strong> off · 3 items = <strong>20%</strong> off · 4+ items = <strong>30%</strong> off
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="samplepacks-grid">
+      <!-- 15DRTT - UNCOSIAL STASH KIT (R8 + GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="video-controls">
+          <div class="play-toggle" data-video="uncosial-video">▶</div>
+        </div>
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="15drtt-uncosial-stash" 
+               data-pack-name="15DRTT - UNCOSIAL STASH KIT" 
+               data-pack-price="8.00">🛒</div>
+        </div>
+        <video class="video-player" id="uncosial-video" muted loop playsinline>
+         <source src="uncosial.mp4" type="video/mp4">
+        </video>
+        <div class="sample-content">
+         <div class="file-size-badge small">158.1MB</div>
+         <div class="sample-name">15DRTT - UNCOSIAL STASH KIT</div>
+         <div class="sample-genre">Trap/HipHop</div>
+         <div class="price-tag">R8.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>🎁 808 - 63</li>
+             <li>🎁 Clap - 22</li>
+             <li>🎁 Crash - 11</li>
+             <li>Premium Quality</li>
+             <li>Production Ready</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- AZPEX GRAND STREET (GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="video-controls">
+          <div class="play-toggle" data-video="azpex-video">▶</div>
+        </div>
+        <div class="bottom-icons">
+         <div class="icon-circle cart-icon" 
+               data-pack-id="azpex-grand-street" 
+               data-pack-name="AZPEX - GRAND STREET DRUM KIT" 
+               data-pack-price="10.00">🛒</div>
+        </div>
+        <video class="video-player" id="azpex-video" muted loop playsinline>
+         <source src="apexgrandstreet.mp4" type="video/mp4">
+        </video>
+        <div class="sample-content">
+         <div class="file-size-badge small">223.8MB</div>
+         <div class="sample-name">AZPEX - GRAND STREET DRUM KIT</div>
+         <div class="sample-genre">Trap/HipHop</div>
+         <div class="price-tag">R10.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>190 high quality drum sounds</li>
+             <li>28 percussion loops</li>
+             <li>23 drum loops</li>
+             <li>15 fills</li>
+             <li>14 fx</li>
+             <li>15 samples 🔗</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- LUKRATIVE (GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="lukrative-vol1" 
+               data-pack-name="THE F1LTHY x LUKRATIVE KIT VOL. 1" 
+               data-pack-price="10.00">🛒</div>
+        </div>
+        <img src="lukrative.jpg" alt="LUKRATIVE" class="sample-img" />
+        <div class="sample-content">
+         <div class="file-size-badge small">559MB</div>
+         <div class="sample-name">THE F1LTHY x LUKRATIVE KIT VOL. 1</div>
+         <div class="sample-genre">Trap/HipHop</div>
+         <div class="price-tag">R10.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>396 Files Total</li>
+             <li>10 Folders</li>
+             <li>Premium Quality</li>
+             <li>Ready To Use</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- AMAPIANO (KEPT - GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="amapiano-pack-1" 
+               data-pack-name="Amapiano Pack 1" 
+               data-pack-price="15.00">🛒</div>
+        </div>
+        <img src="amapianopack1.png" alt="Amapiano Pack 1" class="sample-img" />
+        <div class="sample-content">
+         <div class="file-size-badge small">1.55GB</div>
+         <div class="sample-name">Amapiano Pack 1</div>
+         <div class="sample-genre">Amapiano DrumKit</div>
+         <div class="price-tag">R15.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>Premium Amapiano Drums</li>
+             <li>Log Drums & Percussion</li>
+             <li>Complete Drum Kit</li>
+             <li>Production Ready</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="samplepacks-grid">
+      <!-- Cymatics Artist Premium Pack -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+          <div class="premium-diamond">♦</div>
+          <div class="icon-circle cart-icon" 
+                 data-pack-id="cymatics-artist-premium" 
+                 data-pack-name="Cymatics Artist Premium Pack" 
+                 data-pack-price="50.00">🛒</div>
+        </div>
+        <img src="cymaticsartist.png" alt="Cymatics Artist Premium Pack" class="sample-img" />
+        <div class="sample-content">
+          <div class="file-size-badge">6GB</div>
+          <div class="sample-name">Cymatics Artist Premium Pack</div>
+          <div class="sample-genre">HipHop/Trap Mix</div>
+          <div class="price-tag">R50.00</div>
+          <div class="contents-section">
+            <hr>
+            <ul class="contents-list">
+              <li><a href="cymaticsartist.html" class="view-btn">👁️ View Full Contents</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trap Fendom -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="trap-fendom-kit" 
+               data-pack-name="Trap Fendom Kit" 
+               data-pack-price="25.00">🛒</div>
+        </div>
+        <img src="samplepacks.png" alt="Trap Fendom Kit" class="sample-img" />
+        <div class="sample-content">
+         <div class="file-size-badge">3.6GB</div>
+         <div class="sample-name">Trap Fendom Kit</div>
+         <div class="sample-genre">Trap/HipHop</div>
+         <div class="price-tag">R25.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>1. Jungle</li>
+             <li>2. Melodine</li>
+             <li>3. Money Laws</li>
+             <li>4. Producer gang</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- OGX-Stah 2026 (GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="ogx-stah-2026" 
+               data-pack-name="OGX-Stah 2026" 
+               data-pack-price="18.00">🛒</div>
+        </div>
+        <img src="OGX Stash 2026.jpg" alt="OGX-Stah 2026" class="sample-img" />
+        <div class="sample-content">
+         <div class="file-size-badge small">318.8MB</div>
+         <div class="sample-name">OGX-Stah 2026</div>
+         <div class="sample-genre">Preset & Drumkit</div>
+         <div class="price-tag">R18.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>🏖 50 Zenology Presets</li>
+             <li>🏖 Drumkit - 243 Files</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- FREE: Dark Trap Chronicles (GREEN BADGE) -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+         <div class="icon-circle download-icon" onclick="downloadDarkTrap()">⬇</div>
+        </div>
+        <img src="darktrapchronicles.png" alt="Dark Trap Chronicles" class="sample-img" />
+        <div class="sample-content">
+         <div class="file-size-badge free-badge small">31MB</div>
+         <div class="sample-name">Dark Trap Chronicles</div>
+         <div class="sample-genre">Trap</div>
+         <div class="price-tag free-tag">FREE</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>Premium Trap Sounds</li>
+             <li>Ready To Use</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3 -->
+    <div class="samplepacks-grid">
+      <!-- EVZ Radar MultiKit (BLACK BADGE >600MB) -->
+      <div class="sample-card">
+        <div class="video-controls">
+          <div class="play-toggle" data-video="evz-video">▶</div>
+        </div>
+        <div class="bottom-icons">
+         <div class="premium-diamond">♦</div>
+         <div class="icon-circle cart-icon" 
+               data-pack-id="evz-radar-multikit" 
+               data-pack-name="EVZ - Radar MultiKit" 
+               data-pack-price="10.00">🛒</div>
+        </div>
+        <video class="video-player" id="evz-video" muted loop playsinline>
+         <source src="EVZRADAR.mp4" type="video/mp4">
+        </video>
+        <div class="sample-content">
+         <div class="file-size-badge">836.1MB</div>
+         <div class="sample-name">EVZ - Radar MultiKit</div>
+         <div class="sample-genre">Multi Trap+ HipHop</div>
+         <div class="price-tag">R10.00</div>
+         <div class="contents-section">
+           <hr>
+           <ul class="contents-list">
+             <li>Multi Trap+ HipHop kits</li>
+             <li>Premium Quality</li>
+             <li>Production Ready</li>
+           </ul>
+         </div>
+        </div>
+      </div>
+
+      <!-- NEW: TJRIVERSS - RVRS2 -->
+      <div class="sample-card">
+        <div class="bottom-icons">
+          <div class="premium-diamond">♦</div>
+          <div class="icon-circle cart-icon" 
+                 data-pack-id="tjriverss-rvrs2" 
+                 data-pack-name="TJRIVERSS - RVRS2" 
+                 data-pack-price="15.00">🛒</div>
+        </div>
+        <img src="trjverse.png" alt="TJRIVERSS - RVRS2" class="sample-img" />
+        <div class="sample-content">
+          <div class="file-size-badge">1.1GB</div>
+          <div class="sample-name">TJRIVERSS - RVRS2</div>
+          <div class="sample-genre">Trap Pack Pre-order Version</div>
+          <div class="price-tag">R15.00</div>
+          <div class="contents-section">
+            <hr>
+            <ul class="contents-list">
+              <li>Premium Trap Sounds</li>
+              <li>Pre-order Special</li>
+              <li>Production Ready</li>
+              <li>Coming Soon!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: DEEDOTWILL - RAZORHANDS 4 DRUM KIT -->
+      <div class="sample-card">
+        <div class="video-controls">
+          <div class="play-toggle" data-video="deedotwill-video">▶</div>
+        </div>
+        <div class="bottom-icons">
+          <div class="premium-diamond">♦</div>
+          <div class="icon-circle cart-icon" 
+                 data-pack-id="deedotwill-razorhands4" 
+                 data-pack-name="DEEDOTWILL - RAZORHANDS 4 DRUM KIT" 
+                 data-pack-price="20.00">🛒</div>
+        </div>
+        <video class="video-player" id="deedotwill-video" muted loop playsinline>
+          <source src="DEEDOTWILL - RAZORHANDS 4 DRUM KIT.mp4" type="video/mp4">
+        </video>
+        <div class="sample-content">
+          <div class="file-size-badge small">233MB</div>
+          <div class="sample-name">DEEDOTWILL - RAZORHANDS 4 DRUM KIT</div>
+          <div class="sample-genre">Hard Trap Stash Kit</div>
+          <div class="price-tag">R20.00</div>
+          <div class="contents-section">
+            <hr>
+            <ul class="contents-list">
+              <li>Premium Hard Trap Drums</li>
+              <li>Heavy 808s & Percs</li>
+              <li>Complete Stash Kit</li>
+              <li>Production Ready</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty slot for grid flow -->
+      <div></div>
+    </div>
+
+    <p class="coming-soon-text">More premium sample packs coming soon. Stay tuned!</p>
+  </div>
+
+  <footer>&copy; 2025 PrinceMorgan. All rights reserved. | ProdsX - Premium Beat Marketplace</footer>
+</div>
+
+<script>
+  const cart = { items: [] };
+
+  function getDiscountRate(count) {
+    if (count >= 4) return 0.30;
+    if (count === 3) return 0.20;
+    if (count === 2) return 0.10;
+    return 0;
+  }
+
+  function formatRand(value) {
+    return "R" + parseFloat(value).toFixed(2);
+  }
+
+  function clearAllIcons() {
+    document.querySelectorAll('.cart-icon').forEach(icon => {
+      icon.classList.remove('added');
+    });
+  }
+
+  // BUY ALL PACKS FUNCTION
+  function buyAllPacks() {
+    cart.items = [{
+      id: 'all-packs-bundle',
+      name: 'ALL PACKS BUNDLE - Get links to all packs + all passwords',
+      price: 100.00
+    }];
+    
+    clearAllIcons();
+    updateCartSummary();
+    updateCartModal();
+    toggleCartModal();
+  }
+
+  function updateCartSummary() {
+    const itemsCount = cart.items.length;
+    const subtotal = cart.items.reduce((sum, item) => sum + item.price, 0);
+    const discountRate = getDiscountRate(itemsCount);
+    const discountAmount = subtotal * discountRate;
+    const total = subtotal - discountAmount;
+
+    document.getElementById('cartBadge').textContent = itemsCount;
+    document.getElementById('cartItems').textContent = itemsCount + (itemsCount === 1 ? " item" : " items");
+    document.getElementById('cartTotal').textContent = "Total: " + formatRand(total);
+
+    const discountEl = document.getElementById('cartDiscount');
+    if (discountRate > 0) {
+      discountEl.textContent = `-${Math.round(discountRate * 100)}%`;
+    } else {
+      discountEl.textContent = "No discount";
+    }
+  }
+
+  function toggleCartItem(id, name, price, icons) {
+    const existingIndex = cart.items.findIndex(item => item.id === id);
+    if (existingIndex === -1) {
+      cart.items.push({ id, name, price: parseFloat(price) });
+      icons.forEach(icon => icon.classList.add('added'));
+    } else {
+      cart.items.splice(existingIndex, 1);
+      icons.forEach(icon => icon.classList.remove('added'));
+    }
+    updateCartSummary();
+    updateCartModal();
+  }
+
+  function clearCart() {
+    cart.items = [];
+    clearAllIcons();
+    updateCartSummary();
+    updateCartModal();
+  }
+
+  function toggleCartModal() {
+    const modal = document.getElementById('cartModal');
+    modal.classList.toggle('show');
+  }
+
+  function togglePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    modal.classList.toggle('show');
+  }
+
+  function updateCartModal() {
+    const container = document.getElementById('cartItemsList');
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const discountEl = document.getElementById('cartDiscountRow');
+    const discountAmountEl = document.getElementById('cartDiscountAmount');
+    const totalEl = document.getElementById('cartFinalTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    const subtotal = cart.items.reduce((sum, item) => sum + item.price, 0);
+    const discountRate = getDiscountRate(cart.items.length);
+    const discountAmount = subtotal * discountRate;
+    const total = subtotal - discountAmount;
+
+    subtotalEl.textContent = formatRand(subtotal);
+
+    if (cart.items.length === 0) {
+      container.innerHTML = '<div class="empty-cart">Your cart is empty 😢<br><small>Add some sample packs above!</small></div>';
+      discountEl.style.display = 'none';
+      checkoutBtn.style.display = 'none';
+      return;
+    }
+
+    let itemsHTML = `<button class="clear-cart-btn" onclick="clearCart()">🗑️ Clear Cart</button>`;
+    cart.items.forEach((item, index) => {
+      itemsHTML += `
+        <div class="cart-item">
+         <div class="cart-item-info">
+           <div class="cart-item-name">${item.name}</div>
+           <div class="cart-item-price">${formatRand(item.price)}</div>
+         </div>
+         <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+        </div>
+      `;
+    });
+
+    container.innerHTML = itemsHTML;
+    totalEl.textContent = formatRand(total);
+
+    if (discountRate > 0) {
+      discountEl.style.display = 'flex';
+      discountAmountEl.textContent = `-${formatRand(discountAmount)}`;
+    } else {
+      discountEl.style.display = 'none';
+    }
+
+    checkoutBtn.style.display = 'block';
+  }
+
+  function removeFromCart(index) {
+    cart.items.splice(index, 1);
+    clearAllIcons();
+    cart.items.forEach(item => {
+      const relatedIcons = document.querySelectorAll(`.cart-icon[data-pack-id="${item.id}"]`);
+      relatedIcons.forEach(icon => icon.classList.add('added'));
+    });
+    updateCartSummary();
+    updateCartModal();
+  }
+
+  function checkoutWhatsApp() {
+    if (cart.items.length === 0) return;
+
+    const subtotal = cart.items.reduce((sum, item) => sum + item.price, 0);
+    const discountRate = getDiscountRate(cart.items.length);
+    const discountAmount = subtotal * discountRate;
+    const total = subtotal - discountAmount;
+
+    let itemsList = cart.items.map(item => `• ${item.name} - ${formatRand(item.price)}`).join('\n');
+    const message = `Hi! I'd like to buy the following sample packs:\n\n${itemsList}\n\nSubtotal: ${formatRand(subtotal)}\nDiscount: ${Math.round(discountRate * 100)}% (${formatRand(discountAmount)})\n💰 TOTAL: ${formatRand(total)}`;
+
+    const phoneNumber = "0638100407";
+    const whatsappURL = `https://wa.me/27${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+    toggleCartModal();
+  }
+
+  function downloadDarkTrap() {
+    window.open('https://1024terabox.com/s/15aoA9Lc02ulT8yguYKA27w', '_blank');
+  }
+
+  // VIDEO PLAY/PAUSE FUNCTIONALITY
+  function toggleVideoPlay(videoId) {
+    const video = document.getElementById(videoId);
+    const button = event.target;
+    
+    if (video.paused) {
+      video.play();
+      button.textContent = '⏸';
+      button.classList.add('playing');
+    } else {
+      video.pause();
+      button.textContent = '▶';
+      button.classList.remove('playing');
+    }
+  }
+
+  // INIT
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => document.querySelector('.hero-subtitle').style.opacity = '1', 300);
+
+    document.querySelectorAll('.video-player').forEach(video => {
+      video.play().catch(() => {});
+    });
+
+    // VIDEO PLAY BUTTONS
+    document.querySelectorAll('.play-toggle').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const videoId = this.getAttribute('data-video');
+        toggleVideoPlay(videoId);
+      });
+    });
+
+    document.querySelectorAll('.cart-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = icon.getAttribute('data-pack-id');
+        const name = icon.getAttribute('data-pack-name');
+        const price = icon.getAttribute('data-pack-price');
+        const relatedIcons = document.querySelectorAll(`.cart-icon[data-pack-id="${id}"]`);
+        toggleCartItem(id, name, price, Array.from(relatedIcons));
+      });
+    });
+
+    document.getElementById('cartModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) toggleCartModal();
+    });
+
+    document.getElementById('passwordModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) togglePasswordModal();
+    });
+
+    updateCartSummary();
+  });
+
+  document.addEventListener('click', (e) => {
+    const menuBtn = document.getElementById('menuButton');
+    const dropdownDiv = document.getElementById('navDropdown');
+    if (!dropdownDiv.contains(e.target) && e.target !== menuBtn) {
+      dropdownDiv.classList.remove('show');
+    }
+  });
+
+  document.getElementById('menuButton')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('navDropdown').classList.toggle('show');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('navDropdown')?.classList.remove('show');
+      toggleCartModal();
+      togglePasswordModal();
+    }
+  });
+</script>
+
+</body>
+</html>
